@@ -43,6 +43,8 @@ export const RADIUS = {
   lg: 20,
 };
 
+// export const PADDING = {}
+
 const theme = {
   COLORS,
   FONT_SIZE,

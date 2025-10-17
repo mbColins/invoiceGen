@@ -1,6 +1,7 @@
 import React from 'react';
 import { Controller, Control, FieldErrors } from 'react-hook-form';
 import { TextInput, View, Text, StyleSheet } from 'react-native';
+import { COLORS,FONT_SIZE } from '../utils/theme';
 
 interface FormInputProps {
     control: Control<any>;
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 12,
         fontSize: 16,
-        color: '#ccc',
+        color: COLORS.text,
     },
     errorInput: {
         borderColor: 'red',

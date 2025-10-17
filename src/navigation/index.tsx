@@ -8,6 +8,7 @@ import ShopInformationScreen from '../screens/shopInfo'
 import loginScreen from '../screens/authentication/login'
 import Invoice from '../screens/invoice'
 import GiftScreen from '../screens/giftReceipt'
+import BottomNavigation from './BottomNavigation'
 
 const Stack = createNativeStackNavigator()
 
@@ -21,8 +22,8 @@ const RoutNavigator = () => {
         headerStyle: { backgroundColor: '#01021bff' },
         headerTintColor: '#fff'
       }} />
-      <Stack.Screen name='home' component={HomeScreen} options={{
-        headerShown: true,
+      <Stack.Screen name='home' component={BottomNavigation} options={{
+        headerShown: false,
         headerTitle: "",
         headerStyle: { backgroundColor: '#01021bff' },
         headerTintColor: '#fff'

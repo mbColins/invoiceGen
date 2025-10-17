@@ -12,8 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 
 const invoiceTypes: { title: string; image: any, type:string }[] = [
   { title: 'purchase', image: require('../../assets/images/purchase.jpg') , type:'invoice'},
-  { title: 'service receipt', image: require('../../assets/images/service.jpg'), type:'gift' },
-  { title: 'give receipt', image: require('../../assets/images/gift.jpg'),type:'service' },
+  { title: 'service receipt', image: require('../../assets/images/service.jpg'), type:'service' },
+  { title: 'gift receipt', image: require('../../assets/images/gift.jpg'),type:'gift' },
   { title: 'expense report', image: require('../../assets/images/expense.jpg'),type:'service' },
   { title: 'invoice', image: require('../../assets/images/invoice.jpg'),type:'service' },
   { title: 'custom receipt', image: require('../../assets/images/receipt.jpg'),type:'service' },
@@ -58,7 +58,7 @@ const handleNavigation = (type: keyof RootStackParamList) => {
           </TouchableOpacity>
         )}
       />
-      <View style={styles.btn}><Button title='sujest invoice type' /></View>
+      {/* <View style={styles.btn}><Button title='sujest invoice type' /></View> */}
     </SafeAreaView>
   );
 };
