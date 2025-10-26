@@ -13,7 +13,7 @@ export const COLORS = {
 };
 
 export const FONT_SIZE = {
-  xs: 12,
+  xs: 10,
   sm: 14,
   md: 16,
   lg: 20,
@@ -41,6 +41,7 @@ export const RADIUS = {
   sm: 6,
   md: 12,
   lg: 20,
+  xl: 50
 };
 
 // export const PADDING = {}

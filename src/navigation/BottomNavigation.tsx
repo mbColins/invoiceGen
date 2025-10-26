@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../screens/home';
 import ProfileScreen from '../screens/profile';
 import MenuScreen from '../screens/menu';
+import { Home } from 'lucide-react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +22,8 @@ const BottomNavigation = () => {
                 headerShown: false,
                 headerTitle: "",
                 headerStyle: { backgroundColor: '#01021bff' },
-                headerTintColor: '#fff'
+                headerTintColor: '#fff',
+               tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
             }}
 
             />

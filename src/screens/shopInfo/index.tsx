@@ -5,6 +5,10 @@ import { RootStackParamList } from '../../utils/types';
 import { useNavigation } from '@react-navigation/native';
 import FormInput from '../../components/TextInput';
 import { useForm } from 'react-hook-form';
+import { Camera } from 'lucide-react-native';
+import theme from '../../utils/theme';
+import Label from '../../utils/Label';
+
 
 export default function ShopInformationScreen() {
 
@@ -24,56 +28,105 @@ export default function ShopInformationScreen() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* <TextLogo/> */}
-            <Text style={styles.title}>Enter your shop information</Text>
 
-            <FormInput
-                placeholder='shop initials'
-                name='shop'
-                control={control}
-                errors={errors}
-                rules={{ required: ' shop is required' }}
-            />
-            <FormInput
-                placeholder='name'
-                name='name'
-                control={control}
-                errors={errors}
-                rules={{ required: 'shop name is required' }}
-            />
-            <FormInput
-                placeholder='phonenumber'
-                name='phone'
-                control={control}
-                errors={errors}
-                rules={{ required: 'phonenumber is required' }}
-            />
+            <TouchableOpacity style={styles.companyLogo}>
+                <Text style={styles.logo}> <Camera color={'#fff'} size={30} /></Text>
+                <Text style={{ color: '#fff', paddingVertical: 20 }}>Add company logo</Text>
+            </TouchableOpacity>
+            <View style={{ display: 'flex', flexDirection: 'row', marginTop: 20, gap: 10 }}>
+                <View>
+                    <Label labeText='company initials' />
+                    <FormInput
+                        placeholder='ex: mb shop'
+                        name='shop'
+                        control={control}
+                        errors={errors}
+                        rules={{ required: ' shop is required' }}
+                        inputStyle={styles.inputStyle}
+                    />
+                </View>
+                <View>
+                    <Label labeText='company name' />
+                    <FormInput
+                        placeholder='ex: mb shop center'
+                        name='name'
+                        control={control}
+                        errors={errors}
+                        rules={{ required: 'shop name is required' }}
+                        inputStyle={styles.inputStyle}
+                    />
+                </View>
+            </View>
 
-            <FormInput
-                placeholder='email'
-                name='email'
-                control={control}
-                errors={errors}
-                rules={{
-                    required: 'Email is required',
-                    pattern: {
-                        value: /^\S+@\S+$/i,
-                        message: 'Invalid email format',
-                    },
-                }}
-            />
+            <View style={{ marginTop: 10 }}>
+                <Label labeText='phone number' />
+                <FormInput
+                    placeholder='ex: +237 897'
+                    name='phone'
+                    control={control}
+                    errors={errors}
+                    rules={{ required: 'phonenumber is required' }}
+                    inputStyle={styles.phoneStyle}
+                />
+            </View>
 
-            <FormInput
-                placeholder='location'
-                name='location'
-                control={control}
-                errors={errors}
-                rules={{ required: 'location is required' }}
-            />
+            <View style={{ marginTop: 5 }}>
+                <Label labeText='email' />
+                <FormInput
+                    placeholder='email'
+                    name='email'
+                    control={control}
+                    errors={errors}
+                    rules={{
+                        required: 'Email is required',
+                        pattern: {
+                            value: /^\S+@\S+$/i,
+                            message: 'Invalid email format',
+                        },
+                    }}
+                    inputStyle={styles.phoneStyle}
+                />
+            </View>
 
+            <View style={{ display: 'flex', flexDirection: 'row', marginTop: 20, gap: 10 }}>
+                <View>
+                    <Label labeText='city' />
+                    <FormInput
+                        placeholder='ex: douala'
+                        name='city'
+                        control={control}
+                        errors={errors}
+                        rules={{ required: 'city is required' }}
+                         inputStyle={styles.inputStyle}
+                    />
+                </View>
+                <View>
+                    <Label labeText='location' />
+                    <FormInput
+                        placeholder='ex: pk15'
+                        name='location'
+                        control={control}
+                        errors={errors}
+                        rules={{ required: 'location is required' }}
+                         inputStyle={styles.inputStyle}
+                    />
+                </View>
+
+            </View>
+             <View style={{ marginTop: 10 }}>
+                <Label labeText='reference structure' />
+                <FormInput
+                    placeholder='ex: grand mall'
+                    name='structure'
+                    control={control}
+                    errors={errors}
+                    rules={{ required: 'reference structure is required'}}
+                    inputStyle={styles.phoneStyle}
+                />
+            </View>
 
             <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-                <Text style={styles.buttonText}>Submit</Text>
+                <Text style={styles.buttonText}>save</Text>
             </TouchableOpacity>
 
             <View style={styles.termsContainer}>
@@ -92,7 +145,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         backgroundColor: '#000121ff',
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         paddingVertical: 40,
         paddingHorizontal: 20,
     },
@@ -104,7 +157,7 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     input: {
-        width: '100%',
+        width: 340,
         backgroundColor: '#000121ff',
         borderColor: '#ccc',
         borderBottomWidth: 1,
@@ -115,11 +168,11 @@ const styles = StyleSheet.create({
         color: '#ccc',
     },
     button: {
-        borderColor: '#ccc', borderWidth: 1, width: '100%', borderRadius: 10, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: '30%'
+       borderWidth: 1, width: '100%', borderRadius: 10, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: '10%',backgroundColor:theme.COLORS.success
     },
     buttonText: {
         color: '#fff',
-        fontSize: 18,
+        fontSize: theme.FONT_SIZE.sm,
         textAlign: 'center',
         fontWeight: '600',
     },
@@ -136,4 +189,8 @@ const styles = StyleSheet.create({
         color: '#007bff',
         fontWeight: '500',
     },
+    companyLogo: { display: "flex", flexDirection: 'row', gap: 10, justifyContent: 'flex-start', width: '100%' },
+    logo: { backgroundColor: 'gray', borderRadius: theme.RADIUS.md, textAlign: 'center', paddingVertical: 8, height: 50, width: 50 },
+    inputStyle: { width: 160, borderWidth: 1, marginTop: 10, height: 41 },
+    phoneStyle: { width: 340, borderWidth: 1, height: 42, marginTop: 10 }
 });

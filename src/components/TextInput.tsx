@@ -1,7 +1,7 @@
 import React from 'react';
 import { Controller, Control, FieldErrors } from 'react-hook-form';
-import { TextInput, View, Text, StyleSheet } from 'react-native';
-import { COLORS,FONT_SIZE } from '../utils/theme';
+import { TextInput, View, Text, StyleSheet, TextStyle } from 'react-native';
+import { COLORS, FONT_SIZE } from '../utils/theme';
 
 interface FormInputProps {
     control: Control<any>;
@@ -9,9 +9,11 @@ interface FormInputProps {
     placeholder: string;
     rules?: object;
     errors: FieldErrors;
+    inputStyle?: TextStyle;
+    secureText:boolean;
 }
 
-const FormInput: React.FC<FormInputProps> = ({ control, name, placeholder, rules, errors }) => {
+const FormInput: React.FC<FormInputProps> = ({ control, name, placeholder, rules, errors, inputStyle, secureText }) => {
     return (
         <View style={styles.container}>
             <Controller
@@ -20,11 +22,13 @@ const FormInput: React.FC<FormInputProps> = ({ control, name, placeholder, rules
                 rules={rules}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={[styles.input, errors[name] && styles.errorInput]}
+                        style={[styles.input, inputStyle, errors[name] && styles.errorInput]}
                         placeholder={placeholder}
+                        placeholderTextColor={COLORS.muted}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
+                        secureTextEntry={secureText}
                     />
                 )}
             />
@@ -43,15 +47,16 @@ const styles = StyleSheet.create({
     container: {
         marginBottom: 5,
     },
-     input: {
+    input: {
         width: 340,
-        backgroundColor: '#000121ff',
+        backgroundColor: '#020221',
         borderColor: '#ccc',
         borderBottomWidth: 1,
         borderRadius: 10,
         padding: 12,
-        fontSize: 16,
+        fontSize: 12,
         color: COLORS.text,
+
     },
     errorInput: {
         borderColor: 'red',

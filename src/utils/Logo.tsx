@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { PlaneTakeoff } from 'lucide-react-native'
+import theme from './theme'
 
 const TextLogo = () => {
   return (
     <View style={styles.container}>
-      <Text style={{color:'#fff'}}>InvoiceGen</Text>
+    <PlaneTakeoff color={theme.COLORS.text} size={30}/>
     </View>
   )
 }
@@ -12,5 +14,5 @@ const TextLogo = () => {
 export default TextLogo
 
 const styles = StyleSheet.create({
-    container:{position:'absolute',top:'2%', right:'9%'}
+    container:{}
 })

@@ -10,13 +10,13 @@ import { useNavigation } from '@react-navigation/native';
 // const purchaseInvoice = ;
 // const service = ;
 
-const invoiceTypes: { title: string; image: any, type:string }[] = [
-  { title: 'purchase', image: require('../../assets/images/purchase.jpg') , type:'invoice'},
-  { title: 'service receipt', image: require('../../assets/images/service.jpg'), type:'service' },
-  { title: 'gift receipt', image: require('../../assets/images/gift.jpg'),type:'gift' },
-  { title: 'expense report', image: require('../../assets/images/expense.jpg'),type:'service' },
-  { title: 'invoice', image: require('../../assets/images/invoice.jpg'),type:'service' },
-  { title: 'custom receipt', image: require('../../assets/images/receipt.jpg'),type:'service' },
+const invoiceTypes: { title: string; image: any, type: string }[] = [
+  { title: 'purchase', image: require('../../assets/images/purchase.jpg'), type: 'invoice' },
+  { title: 'service receipt', image: require('../../assets/images/service.jpg'), type: 'service' },
+  { title: 'gift receipt', image: require('../../assets/images/gift.jpg'), type: 'gift' },
+  { title: 'expense report', image: require('../../assets/images/expense.jpg'), type: 'service' },
+  { title: 'invoice', image: require('../../assets/images/invoice.jpg'), type: 'service' },
+  { title: 'custom receipt', image: require('../../assets/images/receipt.jpg'), type: 'service' },
 ];
 
 const HomeScreen = () => {
@@ -26,9 +26,9 @@ const HomeScreen = () => {
 
 
 
-const handleNavigation = (type: keyof RootStackParamList) => {
-  navigation.navigate(type);
-};
+  const handleNavigation = (type: keyof RootStackParamList) => {
+    navigation.navigate(type);
+  };
 
 
   return (
@@ -51,7 +51,7 @@ const handleNavigation = (type: keyof RootStackParamList) => {
         }
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.card}
-          onPress={() => handleNavigation(item.type as keyof RootStackParamList)}
+            onPress={() => handleNavigation(item.type as keyof RootStackParamList)}
           >
             <Image source={item.image} style={styles.invoice} />
             <Text style={{ color: '#ccc', marginVertical: 4 }}>{item.title}</Text>

@@ -4,9 +4,10 @@ import { Camera, Download } from 'lucide-react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../utils/types';
-import TextLogo from '../../utils/TextLogo';
+import TextLogo from '../../utils/Logo';
 import FormInput from '../../components/TextInput';
 import { useForm } from 'react-hook-form';
+import theme from '../../utils/theme';
 
 
 
@@ -28,10 +29,11 @@ const Registration = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* <TextLogo/> */}
-      <Text style={styles.title}>Create an Account</Text>
+      <TextLogo/>
+      <Text style={styles.title}>InvoiceGen</Text>
 
-      <FormInput
+      <View style={{marginTop:'20%'}}>
+        <FormInput
         placeholder='username'
         name='username'
         control={control}
@@ -68,8 +70,9 @@ const Registration = () => {
         errors={errors}
         rules={{ required: ' password is required' }}
       />
+      </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonText}>Submit</Text>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 
       <View style={styles.termsContainer}>
@@ -79,6 +82,12 @@ const Registration = () => {
           <Text style={styles.link}>Privacy Policy</Text>.
         </Text>
       </View>
+    <TouchableOpacity 
+    onPress={() => navigation.navigate("login")}
+    style={styles.loginScreenBtn}>
+      <Text style={{color:'#fff'}}>Have and account.?</Text>
+      <Text style={{color:'#007bff'}}> login</Text>
+    </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -90,14 +99,14 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#000121ff',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     paddingVertical: 40,
     paddingHorizontal: 20,
   },
   title: {
     fontSize: 22,
     fontWeight: '600',
-    marginBottom: 30,
+    marginBottom: 15,
     color: '#ccc',
   },
   input: {
@@ -114,9 +123,10 @@ const styles = StyleSheet.create({
   button: {
     borderColor: '#ccc', borderWidth: 1, width: '100%', borderRadius: 10, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: '30%'
   },
+  loginScreenBtn :{marginTop:'20%',display:'flex',flexDirection:'row'},
   buttonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: theme.FONT_SIZE.md,
     textAlign: 'center',
     fontWeight: '600',
   },

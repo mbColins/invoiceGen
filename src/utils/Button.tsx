@@ -1,15 +1,16 @@
-import { GestureResponderEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { GestureResponderEvent, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
 type buttonProps = {
     title: string,
-     onPress?: (event: GestureResponderEvent) => void
+     onPress?: (event: GestureResponderEvent) => void,
+     btnStyle: TextStyle
     
 }
 
-const Button: React.FC<buttonProps> = ({ title, onPress }) => {
+const Button: React.FC<buttonProps> = ({ title, onPress,btnStyle }) => {
     return (
-        <TouchableOpacity style={styles.container}
+        <TouchableOpacity style={[styles.container,btnStyle]}
         onPress={onPress}
         >
             <Text style={{ color: "#ccc" }}>{title}</Text>

@@ -101,7 +101,7 @@ const GiftScreen = () => {
                 onPress={() =>
                   append({ description: '', quantity: '', store: '', address: '' })}
               >
-                <Text>add another gift</Text>
+                <Text style={{color:'#fff'}}>add another gift</Text>
 
               </TouchableOpacity>
               {index > 0 && (
@@ -130,5 +130,5 @@ const GiftScreen = () => {
 export default GiftScreen
 
 const styles = StyleSheet.create({
-  container: { paddingHorizontal: 10 }
+  container: { paddingHorizontal: 10,backgroundColor:'#000121ff' }
 })

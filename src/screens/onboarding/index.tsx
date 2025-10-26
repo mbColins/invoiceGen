@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native'
 import { RootStackParamList } from '../../utils/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../../utils/Button';
+import { Background } from '@react-navigation/elements';
+import theme from '../../utils/theme';
 
 const bg = require("../../assets/images/land.png")
 
@@ -24,7 +26,7 @@ const LandingScreen = () => {
       </View>
       <View style={styles.btnContainer}> 
         <Text style={styles.btnContainerMsg}>Automate your billing, connect with clients, and share e-invoices in seconds.</Text>
-       <Button title='get started' onPress={() => navigation.navigate("login")} />
+       <Button title='get started' onPress={() => navigation.navigate("login")}  btnStyle={styles.btnStyle}/>
       </View>
     </ImageBackground>
   )
@@ -36,5 +38,6 @@ const styles = StyleSheet.create({
   btn: { backgroundColor: 'blue', width: 200, borderRadius: 5, marginTop: 40 },
   message: {height:'80%' },
   btnContainer:{justifyContent:'center',alignItems:'center'},
-  btnContainerMsg : { color: "#fff", marginTop: 15, textAlign: 'center',marginBottom:20 }
+  btnContainerMsg : { color: "#fff", marginTop: 15, textAlign: 'center',marginBottom:20 },
+  btnStyle :{backgroundColor:theme.COLORS.primary, borderColor:theme.COLORS.primary}
 })

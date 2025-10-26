@@ -9,6 +9,8 @@ import loginScreen from '../screens/authentication/login'
 import Invoice from '../screens/invoice'
 import GiftScreen from '../screens/giftReceipt'
 import BottomNavigation from './BottomNavigation'
+import theme from '../utils/theme'
+
 
 const Stack = createNativeStackNavigator()
 
@@ -18,9 +20,14 @@ const RoutNavigator = () => {
       <Stack.Screen name='onboard' component={LandingScreen} options={{ headerShown: false }} />
       <Stack.Screen name='register' component={Registration} options={{
         headerShown: true,
-        headerTitle: "",
+        headerTitle: "Register",
         headerStyle: { backgroundColor: '#01021bff' },
-        headerTintColor: '#fff'
+        headerTintColor: '#fff',
+        headerTitleAlign:'center',
+         headerTitleStyle: {
+            fontSize: theme.FONT_SIZE.md,         // 👈 change this to whatever you want
+            fontWeight: 'bold',   // optional
+          },
       }} />
       <Stack.Screen name='home' component={BottomNavigation} options={{
         headerShown: false,
@@ -31,17 +38,27 @@ const RoutNavigator = () => {
       <Stack.Screen name='shop' component={ShopInformationScreen}
         options={{
           headerShown: true,
-          headerTitle: "",
+          headerTitle: "Business details",
           headerStyle: { backgroundColor: '#01021bff' },
-          headerTintColor: '#fff'
+          headerTintColor: '#fff',
+           headerTitleAlign:'center',
+           headerTitleStyle: {
+            fontSize: theme.FONT_SIZE.md,         // 👈 change this to whatever you want
+            fontWeight: 'bold',   // optional
+          },
         }}
       />
       <Stack.Screen name='login' component={loginScreen}
         options={{
           headerShown: true,
-          headerTitle: "",
+          headerTitle: "Log in",
           headerStyle: { backgroundColor: '#01021bff' },
-          headerTintColor: '#fff'
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: theme.FONT_SIZE.md,         // 👈 change this to whatever you want
+            fontWeight: 'bold',   // optional
+          },
         }}
       />
       <Stack.Screen name='invoice' component={Invoice}
