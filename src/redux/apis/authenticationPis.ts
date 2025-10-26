@@ -19,7 +19,21 @@ export const authenticationApi = createApi({
       transformResponse: (response: any) => response?.data,
       transformErrorResponse: (response: any) => response?.status,
     }),
-  }),
-});
 
-export const { useAuthUserMutation } = authenticationApi;
+
+    registerUser: build.mutation<any, any>({
+      query: (body) => ({
+        url: '/register', // your backend registration endpoint
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      transformResponse: (response: any) => response?.data,
+      transformErrorResponse: (response: any) => response?.status,
+    }),
+  })
+})
+
+export const { useAuthUserMutation, useRegisterUserMutation } = authenticationApi;

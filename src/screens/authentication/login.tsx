@@ -11,7 +11,9 @@ import TextLogo from '../../utils/Logo';
 import { useAuthUserMutation } from '../../redux/apis/authenticationPis';
 import Label from '../../utils/Label';
 import ModalComponent from '../../utils/Modal';
-import {showToast} from '../../utils/Toast';
+import { showToast } from '../../utils/Toast';
+import { clearLogin } from '../../redux/slice/loginSlice';
+import { useDispatch } from 'react-redux';
 
 interface FormData {
     username: string;
@@ -21,25 +23,25 @@ interface FormData {
 const LoginScreen = () => {
     const [username, setusername] = useState('');
     const [password, setpassword] = useState('');
-
-
-    type regitrationNavigation = NativeStackNavigationProp<RootStackParamList, 'register', 'home'>;
-
-    const navigation = useNavigation<regitrationNavigation>();
     const [visible, setVisible] = useState(false);
     const [showPassWord, SetShowPassWord] = useState(false);
 
-    const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
-    const [authUser, { data, isLoading, isError, isSuccess, error }] = useAuthUserMutation();
-    
+    const navigation = useNavigation<regitrationNavigation>();
+    const dispatch = useDispatch();
 
+    const [authUser, { data, isLoading, isError, isSuccess, error }] = useAuthUserMutation();
+    const { control, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
+
+    type regitrationNavigation = NativeStackNavigationProp<RootStackParamList, 'register', 'home'>;
 
     useEffect(() => {
         if (isSuccess && data) {
-           
+
             console.log('Login successful:', data);
+            dispatch(clearLogin());
+            reset();
             navigation.navigate('home');
-            showToast("✅ Login successful!  Welcome back")
+            showToast("✅ Login successful!  Welcome back");
         }
         if (isError) {
             setVisible(false);
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 15,
     },
-     optionBtn: { paddingTop: 25, position: 'absolute', right: 20 },
+    optionBtn: { paddingTop: 25, position: 'absolute', right: 20 },
     button: {
         borderWidth: 1, width: '100%', borderRadius: 10, height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.COLORS.primary
     },
