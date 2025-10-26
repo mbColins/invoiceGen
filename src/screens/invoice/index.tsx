@@ -65,6 +65,7 @@ const Invoice = () => {
               errors={errors}
               rules={{ required: 'Customer name is required' }}
               inputStyle={styles.inputStyle}
+              secureText={false}
             />
           </View>
           <TouchableOpacity style={styles.contactBtn}>
@@ -79,6 +80,7 @@ const Invoice = () => {
           errors={errors}
           rules={{ required: 'Phone number is required' }}
           inputStyle={{ borderWidth: 1, marginTop: 4, height: 41 }}
+          secureText={false}
         />
       </View>
 
@@ -95,7 +97,8 @@ const Invoice = () => {
               control={control}
               errors={errors}
               rules={{ required: 'Description is required' }}
-              inputStyle={{ borderWidth: 1, marginTop: 4 , height: 41}}
+              inputStyle={{ borderWidth: 1, marginTop: 4, height: 41 }}
+              secureText={false}
             />
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <View>
@@ -106,7 +109,8 @@ const Invoice = () => {
                   control={control}
                   errors={errors}
                   rules={{ required: 'Quantity is required' }}
-                  inputStyle={{borderWidth: 1 , height: 41,width:162}}
+                  inputStyle={{ borderWidth: 1, height: 41, width: 162 }}
+                  secureText={false}
                 />
               </View>
               <View>
@@ -117,7 +121,8 @@ const Invoice = () => {
                   control={control}
                   errors={errors}
                   rules={{ required: 'Unit price is required' }}
-                  inputStyle={{ borderWidth: 1 , height: 41,width:162}}
+                  inputStyle={{ borderWidth: 1, height: 41, width: 162 }}
+                  secureText={false}
                 />
               </View>
             </View>
@@ -130,6 +135,7 @@ const Invoice = () => {
                 errors={errors}
                 rules={{ required: 'Tax is required' }}
                 inputStyle={{ borderWidth: 1, height: 41 }}
+                secureText={false}
               />
             </View>
             <View>
@@ -140,12 +146,13 @@ const Invoice = () => {
                 control={control}
                 errors={errors}
                 rules={{ required: 'Total is required' }}
-                inputStyle={{ borderWidth: 1 , height: 41}}
+                inputStyle={{ borderWidth: 1, height: 41 }}
+                secureText={false}
               />
             </View>
-      
 
-            <View style={{ display: 'flex', flexDirection: 'row',  justifyContent:'flex-end',alignItems: 'flex-end', gap: 10 }}>
+
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end', gap: 10 }}>
               <TouchableOpacity
                 onPress={() =>
                   append({ description: '', quantity: '', unitprice: '', tax: '', total: '' })
@@ -170,13 +177,13 @@ const Invoice = () => {
         {/* Add another item */}
 
       </View>
-       <View style={{borderWidth:1, borderColor:"#fff", height:100, marginTop:15,borderRadius:10}}>
-              <Text style={{color:theme.COLORS.text, textAlign:'center'}}> digital signature</Text>
-            </View>
+      <View style={{ borderWidth: 1, borderColor: "#fff", height: 100, marginTop: 15, borderRadius: 10 }}>
+        <Text style={{ color: theme.COLORS.text, textAlign: 'center' }}> digital signature</Text>
+      </View>
 
       {/* Submit */}
       <TouchableOpacity style={styles.saveButton} onPress={handleSubmit(onSubmit)}>
-        <Text style={{ textAlign: 'center', color: theme.COLORS.primary}}>Save </Text>
+        <Text style={{ textAlign: 'center', color: theme.COLORS.primary }}>Save </Text>
       </TouchableOpacity>
     </ScrollView>
   );
