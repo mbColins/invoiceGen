@@ -48,6 +48,7 @@ const Invoice = () => {
 
   return (
     <ScrollView style={styles.container}>
+     
       <Text style={styles.headerText}>
         Fill in the following form to generate your invoice
       </Text>

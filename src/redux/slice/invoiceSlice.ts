@@ -37,5 +37,5 @@ const invoiceSlice = createSlice({
     }
   }
 });
-export const { } = invoiceSlice.actions;
+export const {registerInvoice } = invoiceSlice.actions;
 export default invoiceSlice.reducer;

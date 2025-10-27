@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import Status from '../../utils/StatusBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,6 +6,8 @@ import Button from '../../utils/Button';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../utils/types';
 import { useNavigation } from '@react-navigation/native';
+import CustomStatusBar from '../../components/CustomStatusBar';
+import theme from '../../utils/theme';
 
 // const purchaseInvoice = ;
 // const service = ;
@@ -19,11 +21,13 @@ const invoiceTypes: { title: string; image: any, type: string }[] = [
   { title: 'custom receipt', image: require('../../assets/images/receipt.jpg'), type: 'service' },
 ];
 
+const screenWidth = Dimensions.get('window').width;
+
+
 const HomeScreen = () => {
 
   type invoiceNavigation = NativeStackNavigationProp<RootStackParamList>;
   const navigation = useNavigation<invoiceNavigation>();
-
 
 
   const handleNavigation = (type: keyof RootStackParamList) => {
@@ -33,32 +37,48 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <CustomStatusBar />
+
+      <View style={styles.statistics}>
+        <View style={styles.statisticsItem}>
+          <Text style={styles.text}>total Ivoice</Text>
+          <Text style={styles.text}>35</Text>
+          <Text style={styles.text}>Last 24 hours</Text>
+        </View>
+        <View style={styles.statisticsItem}>
+          <Text style={styles.text}>Paid inoive</Text>
+          <Text style={styles.text}>35</Text>
+          <Text style={styles.text}>Last 30 days</Text>
+        </View>
+        <View style={styles.statisticsItem}>
+          <Text style={styles.text}>pending invoice</Text>
+          <Text style={styles.text}>35</Text>
+          <Text style={styles.text}>Last 24 hours</Text>
+        </View>
+      </View>
+
       <FlatList
         data={invoiceTypes}
         keyExtractor={(_, index) => index.toString()}
-        numColumns={2}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        ListHeaderComponent={
-          <>
-            <Status />
-            <View style={styles.title}>
-              <Text style={{ fontSize: 20, color: '#ccc' }}>Choose a receipt type</Text>
-              <Text style={{ color: '#ccc' }}>
-                Select the type of receipt you want to create
-              </Text>
-            </View>
-          </>
-        }
+        numColumns={3}
+        contentContainerStyle={styles.contentContainer}        // ListHeaderComponent={
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card}
-            onPress={() => handleNavigation(item.type as keyof RootStackParamList)}
-          >
+         <View style={styles.card}>
+           <TouchableOpacity 
+            onPress={() => handleNavigation(item.type as keyof RootStackParamList)}>
             <Image source={item.image} style={styles.invoice} />
-            <Text style={{ color: '#ccc', marginVertical: 4 }}>{item.title}</Text>
           </TouchableOpacity>
+            <Text style={{ color: '#0b0b0bff',fontSize: 10,marginTop:10}}>{item.title}</Text>
+         </View>
         )}
+        ListFooterComponent={
+          
+            <Text style={{textAlign:'left', marginLeft:20, fontWeight:500, marginTop:30}}>Recent transactions</Text>
+        
+        }
+        ListFooterComponentStyle={styles.footerStyle}
       />
-      {/* <View style={styles.btn}><Button title='sujest invoice type' /></View> */}
+         
     </SafeAreaView>
   );
 };
@@ -69,8 +89,13 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000121ff', alignItems: 'center' },
   title: { justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 20 },
   card: {
-    borderWidth: 1, backgroundColor: '#5a5959ff', borderColor: '#aca6a6ff', height: 150, width: 130, alignItems: 'center', borderRadius: 10, marginTop: 10, marginHorizontal: 15, paddingTop: 20,
+    backgroundColor: "#d7e3fcff", height: 70, width: 70, alignItems: 'center', borderRadius: 10, marginVertical: 10, marginHorizontal: 15, paddingTop: 25,justifyContent:'center'
   },
-  invoice: { height: 90, width: 90, borderRadius: 10 },
-  btn: { position: 'absolute', bottom: 30 }
+  invoice: { height: 50, width: 50, borderRadius: 10 },
+  btn: { position: 'absolute', bottom: 30 },
+  statistics: { backgroundColor: '#5a5959ff', height: '10%', width: '95%', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 30, borderRadius: 10 },
+  statisticsItem: { justifyContent: 'center', alignItems: 'flex-start' },
+  text: { color: theme.COLORS.text, fontSize: 12, textAlign: 'left', fontStyle: 'italic' },
+  contentContainer: {paddingBottom: 20,backgroundColor: '#fff',marginTop: 30,width: screenWidth,justifyContent: 'center',alignItems: 'center', borderTopEndRadius:20,borderTopStartRadius:20},
+  footerStyle: {justifyContent:'flex-start', alignItems:'flex-start', alignContent:'flex-start', width:screenWidth}
 });

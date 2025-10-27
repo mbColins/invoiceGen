@@ -17,6 +17,19 @@ export const invoiceApi = createApi({
             }),
             transformResponse: (response: any) => response?.data,
             transformErrorResponse: (response: any) => response?.status,
-        })
+        }),
+
+        getCurrentUserInvoices: build.query<any, void>({
+            query: () => ({
+                url: '/my_invoices',
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }),
+            transformResponse: (response: any) => response?.data,
+            transformErrorResponse: (response: any) => response?.status,
+        }),
+
     })
 })
