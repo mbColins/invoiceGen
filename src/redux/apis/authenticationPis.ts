@@ -1,13 +1,34 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseUrl = 'http://192.168.1.127:2002/api/v1/auth';
 
+type LoginResponse = {
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string; // "Bearer"
+  username: string;
+  role: string;
+  message: string;
+};
+
+
+
 export const authenticationApi = createApi({
   reducerPath: 'authenticationApi',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({
+    baseUrl, prepareHeaders: async (headers) => {
+      const token = await AsyncStorage.getItem('accessToken');
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
+
   tagTypes: ['Auth'],
   endpoints: (build) => ({
-    authUser: build.mutation<any, any>({
+    authUser: build.mutation<LoginResponse,any>({
       query: (body) => ({
         url: '/login', // ✅ No leading slash
         method: 'POST',
