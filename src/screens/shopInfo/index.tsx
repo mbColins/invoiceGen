@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../utils/types';
 import { useNavigation } from '@react-navigation/native';
@@ -8,6 +8,21 @@ import { useForm } from 'react-hook-form';
 import { Camera } from 'lucide-react-native';
 import theme from '../../utils/theme';
 import Label from '../../utils/Label';
+import SignatureScreen, { SignatureRef } from '../../components/SignaturePicker';
+
+interface businessDetailsData {
+    logo: string;
+    companyInitials: string;
+    companyName: string;
+    phoneNumber: string;
+    email: string;
+    city: string;
+    signature: string;
+    location: string;
+    referenceStructure: string;
+
+
+}
 
 
 export default function ShopInformationScreen() {
@@ -16,8 +31,10 @@ export default function ShopInformationScreen() {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
+    const signatureRef = useRef<SignatureRef>(null);
+
     type homeNavigation = NativeStackNavigationProp<RootStackParamList, 'login'>;
-    const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const { control, handleSubmit, setValue, formState: { errors } } = useForm<businessDetailsData>();
 
     const navigation = useNavigation<homeNavigation>();
 
@@ -27,114 +44,156 @@ export default function ShopInformationScreen() {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView
 
-            <TouchableOpacity style={styles.companyLogo}>
-                <Text style={styles.logo}> <Camera color={'#fff'} size={30} /></Text>
-                <Text style={{ color: '#fff', paddingVertical: 20 }}>Add company logo</Text>
-            </TouchableOpacity>
-            <View style={{ display: 'flex', flexDirection: 'row', marginTop: 20, gap: 10 }}>
-                <View>
-                    <Label labeText='company initials' />
-                    <FormInput
-                        placeholder='ex: mb shop'
-                        name='shop'
-                        control={control}
-                        errors={errors}
-                        rules={{ required: ' shop is required' }}
-                        inputStyle={styles.inputStyle}
-                    />
+            contentContainerStyle={styles.container}>
+
+            <View style={styles.subContainer}>
+                <TouchableOpacity style={styles.companyLogo}>
+                    <Text style={styles.logo}> <Camera color={'#fff'} size={30} /></Text>
+                    <Text style={{ color: '#000', paddingVertical: 20 }}>Add company logo</Text>
+                </TouchableOpacity>
+                <View style={{ display: 'flex', flexDirection: 'row', marginTop: 20, gap: 10 }}>
+                    <View>
+                        <Label labeText='company initials:' labelStyle={{ color: "#000" }} />
+                        <FormInput
+                            placeholder='ex: mb shop'
+                            name='shop'
+                            control={control}
+                            errors={errors}
+                            rules={{ required: ' shop is required' }}
+                            inputStyle={styles.locationStyle}
+                            editable={true}
+                            secureText={false}
+
+                        />
+                    </View>
+                    <View>
+                        <Label labeText='company name:' labelStyle={{ color: "#000" }} />
+                        <FormInput
+                            placeholder='ex: mb shop center'
+                            name='name'
+                            control={control}
+                            errors={errors}
+                            rules={{ required: 'shop name is required' }}
+                            inputStyle={styles.locationStyle}
+                            editable={true}
+                            secureText={false}
+                        />
+                    </View>
                 </View>
-                <View>
-                    <Label labeText='company name' />
+
+                <View style={{ marginTop: 10 }}>
+                    <Label labeText='phone number:' labelStyle={{ color: "#000" }} />
                     <FormInput
-                        placeholder='ex: mb shop center'
-                        name='name'
+                        placeholder='ex: +237 897'
+                        name='phone'
                         control={control}
                         errors={errors}
-                        rules={{ required: 'shop name is required' }}
-                        inputStyle={styles.inputStyle}
-                    />
-                </View>
-            </View>
+                        rules={{ required: 'phonenumber is required' }}
+                        inputStyle={styles.phoneStyle}
+                        keyboardType='number-pad'
+                        editable={true}
+                        secureText={false}
 
-            <View style={{ marginTop: 10 }}>
-                <Label labeText='phone number' />
-                <FormInput
-                    placeholder='ex: +237 897'
-                    name='phone'
-                    control={control}
-                    errors={errors}
-                    rules={{ required: 'phonenumber is required' }}
-                    inputStyle={styles.phoneStyle}
-                />
-            </View>
-
-            <View style={{ marginTop: 5 }}>
-                <Label labeText='email' />
-                <FormInput
-                    placeholder='email'
-                    name='email'
-                    control={control}
-                    errors={errors}
-                    rules={{
-                        required: 'Email is required',
-                        pattern: {
-                            value: /^\S+@\S+$/i,
-                            message: 'Invalid email format',
-                        },
-                    }}
-                    inputStyle={styles.phoneStyle}
-                />
-            </View>
-
-            <View style={{ display: 'flex', flexDirection: 'row', marginTop: 20, gap: 10 }}>
-                <View>
-                    <Label labeText='city' />
-                    <FormInput
-                        placeholder='ex: douala'
-                        name='city'
-                        control={control}
-                        errors={errors}
-                        rules={{ required: 'city is required' }}
-                         inputStyle={styles.inputStyle}
-                    />
-                </View>
-                <View>
-                    <Label labeText='location' />
-                    <FormInput
-                        placeholder='ex: pk15'
-                        name='location'
-                        control={control}
-                        errors={errors}
-                        rules={{ required: 'location is required' }}
-                         inputStyle={styles.inputStyle}
                     />
                 </View>
 
-            </View>
-             <View style={{ marginTop: 10 }}>
-                <Label labeText='reference structure' />
-                <FormInput
-                    placeholder='ex: grand mall'
-                    name='structure'
-                    control={control}
-                    errors={errors}
-                    rules={{ required: 'reference structure is required'}}
-                    inputStyle={styles.phoneStyle}
-                />
-            </View>
+                <View style={{ marginTop: 5 }}>
+                    <Label labeText='email:' labelStyle={{ color: "#000" }} />
+                    <FormInput
+                        placeholder='email'
+                        name='email'
+                        control={control}
+                        errors={errors}
+                        rules={{
+                            required: 'Email is required',
+                            pattern: {
+                                value: /^\S+@\S+$/i,
+                                message: 'Invalid email format',
+                            },
+                        }}
+                        inputStyle={styles.phoneStyle}
+                        keyboardType='email-address'
+                        editable={true}
+                        secureText={false}
+                    />
+                </View>
 
-            <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-                <Text style={styles.buttonText}>save</Text>
-            </TouchableOpacity>
+                <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10, gap: 10 }}>
+                    <View>
+                        <Label labeText='city:' labelStyle={{ color: "#000" }} />
+                        <FormInput
+                            placeholder='ex: douala'
+                            name='city'
+                            control={control}
+                            errors={errors}
+                            rules={{ required: 'city is required' }}
+                            inputStyle={styles.locationStyle}
+                            editable={true}
+                            secureText={false}
+                        />
+                    </View>
+                    <View>
+                        <Label labeText='location:' labelStyle={{ color: "#000" }} />
+                        <FormInput
+                            placeholder='ex: pk15'
+                            name='location'
+                            control={control}
+                            errors={errors}
+                            rules={{ required: 'location is required' }}
+                            inputStyle={styles.locationStyle}
+                            editable={true}
+                            secureText={false}
+                        />
+                    </View>
 
-            <View style={styles.termsContainer}>
-                <Text style={styles.termsText}>
-                    By registering, you agree to our{' '}
-                    <Text style={styles.link}>Terms & Conditions</Text> and{' '}
-                    <Text style={styles.link}>Privacy Policy</Text>.
-                </Text>
+                </View>
+                <View style={{ marginTop: 5 }}>
+                    <Label labeText='reference structure:' labelStyle={{ color: "#000" }} />
+                    <FormInput
+                        placeholder='ex: grand mall'
+                        name='structure'
+                        control={control}
+                        errors={errors}
+                        rules={{ required: 'reference structure is required' }}
+                        inputStyle={styles.phoneStyle}
+                        editable={true}
+                        secureText={false}
+                    />
+                </View>
+
+                <View>
+                    <Text>add your signature: it will be used on your invoices</Text>
+                    <SignatureScreen
+                        ref={signatureRef}
+                        onSave={(sig) => {
+                            console.log('Parent received signature:', sig);
+                            setValue('signature', sig); // 👈 store signature in form
+                        }}
+                        width={300}
+                        height={65}
+                    />
+                    <TouchableOpacity
+
+                        onPress={() => signatureRef.current?.clear()}
+                        style={{ width: theme.screenWidth - 50, justifyContent:"flex-end" }}>
+                        <Text style={{ color: '#000', textAlign: 'right', marginHorizontal: 15, padding: 5 }}>clear</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.termsContainer}>
+                    <Text style={styles.termsText}>
+                        By registering, you agree to our{' '}
+                        <Text style={styles.link}>Terms & Conditions</Text> and{' '}
+                        <Text style={styles.link}>Privacy Policy</Text>.
+                    </Text>
+                </View>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
+                    <Text style={styles.buttonText}>save</Text>
+                </TouchableOpacity>
+
+
             </View>
         </ScrollView>
     )
@@ -146,8 +205,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#000121ff',
         alignItems: 'center',
         // justifyContent: 'center',
-        paddingVertical: 40,
-        paddingHorizontal: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+        width: theme.screenWidth
     },
     title: {
         fontSize: 22,
@@ -168,7 +228,7 @@ const styles = StyleSheet.create({
         color: '#ccc',
     },
     button: {
-       borderWidth: 1, width: '100%', borderRadius: 10, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: '10%',backgroundColor:theme.COLORS.success
+        width: theme.screenWidth - 50, borderRadius: 10, height: 40, justifyContent: 'center', alignItems: 'center',marginTop:10, backgroundColor: theme.COLORS.primary
     },
     buttonText: {
         color: '#fff',
@@ -177,7 +237,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     termsContainer: {
-        marginTop: 25,
+        marginTop: 5,
         paddingHorizontal: 10,
     },
     termsText: {
@@ -189,8 +249,10 @@ const styles = StyleSheet.create({
         color: '#007bff',
         fontWeight: '500',
     },
-    companyLogo: { display: "flex", flexDirection: 'row', gap: 10, justifyContent: 'flex-start', width: '100%' },
+    companyLogo: { display: "flex", flexDirection: 'row', gap: 10, justifyContent: 'flex-start', alignItems: "center", paddingHorizontal: 5, width: theme.screenWidth - 30, borderRadius: 10, borderWidth: 1, marginTop: 20 },
     logo: { backgroundColor: 'gray', borderRadius: theme.RADIUS.md, textAlign: 'center', paddingVertical: 8, height: 50, width: 50 },
     inputStyle: { width: 160, borderWidth: 1, marginTop: 10, height: 41 },
-    phoneStyle: { width: 340, borderWidth: 1, height: 42, marginTop: 10 }
+    locationStyle: { width: 160, borderWidth: 1, height: 41, backgroundColor: '#fff', color: 'gray' },
+    phoneStyle: { width: theme.screenWidth - 30, borderWidth: 1, height: 42, backgroundColor: "#fff", color: 'gray' },
+    subContainer: { flex: 1, backgroundColor: '#fff', borderRadius: 15, alignItems: 'center', height: theme.screenHeight }
 });

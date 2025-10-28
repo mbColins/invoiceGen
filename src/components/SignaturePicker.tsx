@@ -1,46 +1,100 @@
-// import React, { useRef } from "react";
-// import { View, Button, ViewStyle } from "react-native";
-// import SignatureCapture from "react-native-signature-capture";
+import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import { StyleSheet, View, Image, Dimensions } from 'react-native';
+import SignatureCanvas, { SignatureViewRef } from 'react-native-signature-canvas';
 
-// interface SignaturePickerProps {
-//   onSave?: (signatureBase64: string) => void;
-//   strokeColor?: string;
-//   backgroundColor?: string;
-//   style?: ViewStyle;
-// }
+interface SignatureProps {
+  onSave: (signature: string) => void;
+  width?: number;
+  height?: number;
+  penColor?: string;
+  backgroundColor?: string;
+}
 
-// const SignaturePicker: React.FC<SignaturePickerProps> = ({ onSave,strokeColor = "#000",backgroundColor = "#fff",style,}) => {
-//   const ref = useRef<SignatureCapture>(null);
+export interface SignatureRef {
+  clear: () => void;
+}
 
-//   const saveSignature = () => {
-//     ref.current?.saveImage();
-//   };
+const SignatureScreen = forwardRef<SignatureRef, SignatureProps>(
+  (
+    {
+      onSave,
+      width = Dimensions.get('window').width - 40,
+      height = 180,
+      penColor = '#000000',
+      backgroundColor = '#ffffff',
+    },
+    ref
+  ) => {
+    const [signature, setSignature] = useState<string | null>(null);
+    const signatureRef = useRef<SignatureViewRef>(null);
 
-//   const resetSignature = () => {
-//     ref.current?.resetImage();
-//   };
+    // Expose clear to parent
+    useImperativeHandle(ref, () => ({
+      clear: () => {
+        setSignature(null);
+        signatureRef.current?.clearSignature?.();
+      },
+    }));
 
-//   const handleSaveEvent = (result: { encoded: string; pathName: string }) => {
-//     if (onSave) {
-//       onSave(result.encoded);
-//     }
-//   };
+    const handleSignature = (sig: string) => {
+      console.log('Signature captured:', sig.substring(0, 50) + '...');
+      setSignature(sig);
+      onSave(sig);
+    };
 
-//   return (
-//     <View style={[{ flex: 1 }, style]}>
-//       <SignatureCapture
-//         style={{ flex: 1, borderColor: "#000033", borderWidth: 1 }}
-//         ref={ref}
-//         onSaveEvent={handleSaveEvent}
-//         showNativeButtons={false}
-//         showTitleLabel={false}
-//         backgroundColor={backgroundColor}
-//         strokeColor={strokeColor}
-//       />
-//       <Button title="Save" onPress={saveSignature} />
-//       <Button title="Reset" onPress={resetSignature} />
-//     </View>
-//   );
-// };
+    const webStyle = `
+      .m-signature-pad--footer {display: none; margin: 0px;}
+      .m-signature-pad {box-shadow: none; border: none;}
+      body, html { background: ${backgroundColor}; }
+      canvas { background: ${backgroundColor}; border-radius: 8px; }
+    `;
 
-// export default SignaturePicker;
+    return (
+      <View style={styles.container}>
+        {/* Signature preview */}
+        {signature ? (
+          <Image
+            resizeMode="contain"
+            style={[styles.preview, { width, height }]}
+            source={{ uri: signature }}
+          />
+        ) : (
+          <View style={[styles.preview, { width, height }]}>
+            <SignatureCanvas
+              ref={signatureRef}
+              onOK={handleSignature}
+              onEmpty={() => console.log('Empty signature')}
+              descriptionText="Sign here"
+              clearText="Clear"
+              confirmText="Save"
+              webStyle={webStyle}
+              penColor={penColor}
+              backgroundColor={backgroundColor}
+              autoClear={false}
+              webviewProps={{
+                androidLayerType: 'hardware',
+                cacheEnabled: false,
+              }}
+            />
+          </View>
+        )}
+      </View>
+    );
+  }
+);
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  preview: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+});
+
+export default SignatureScreen;

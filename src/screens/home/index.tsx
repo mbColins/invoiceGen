@@ -43,6 +43,7 @@ const HomeScreen = () => {
     navigation.navigate(type);
   };
 
+  console.log(data)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   statistics: { backgroundColor: '#5a5959ff', height: '10%', width: '95%', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 30, borderRadius: 10, marginBottom:10 },
   statisticsItem: { justifyContent: 'center', alignItems: 'flex-start' },
   text: { color: theme.COLORS.text, fontSize: 12, textAlign: 'left', fontStyle: 'italic' },
-  contentContainer: {paddingBottom: 20,backgroundColor: '#fff',marginTop: 30,width: screenWidth,justifyContent: 'center',alignItems: 'center', borderTopEndRadius:20,borderTopStartRadius:20},
+  contentContainer: {paddingBottom: 20,backgroundColor: '#fff',marginTop: 30,width: screenWidth,alignItems: 'center', borderTopEndRadius:20,borderTopStartRadius:20,height:theme.screenHeight},
   footerStyle: {justifyContent:'flex-start', alignItems:'flex-start', alignContent:'flex-start', width:screenWidth},
    incoices: { marginHorizontal: 10, width: screenWidth - 20, borderBottomWidth: 1, borderBottomColor: '#d7d2d2ff', marginVertical: 5, backgroundColor: '#faf6f6ff', padding: 5, borderRadius: 10 }
 });

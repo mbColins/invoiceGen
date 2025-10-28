@@ -4,6 +4,7 @@ import { Dimensions } from "react-native";
 
 
 export const screenWidth = Dimensions.get('window').width;
+export const screenHeight = Dimensions.get('window').height;
 
 export const COLORS = {
   primary: '#1E90FF',      // Blue
@@ -58,6 +59,7 @@ const theme = {
   SPACING,
   RADIUS,
   screenWidth,
+  screenHeight
 };
 
 export default theme;

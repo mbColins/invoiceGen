@@ -1,7 +1,7 @@
 import React from 'react';
 import { Controller, Control, FieldErrors } from 'react-hook-form';
-import { TextInput, View, Text, StyleSheet, TextStyle } from 'react-native';
-import { COLORS, FONT_SIZE } from '../utils/theme';
+import { TextInput, View, Text, StyleSheet, TextStyle, KeyboardTypeOptions } from 'react-native';
+import theme, { COLORS, FONT_SIZE } from '../utils/theme';
 
 interface FormInputProps {
     control: Control<any>;
@@ -11,10 +11,11 @@ interface FormInputProps {
     errors: FieldErrors;
     inputStyle?: TextStyle;
     secureText:boolean;
-    editable:boolean
+    editable:boolean;
+    keyboardType?:KeyboardTypeOptions;
 }
 
-const FormInput: React.FC<FormInputProps> = ({ control, name, placeholder, rules, errors, inputStyle, secureText,editable }) => {
+const FormInput: React.FC<FormInputProps> = ({ control, name, keyboardType,placeholder, rules, errors, inputStyle, secureText,editable }) => {
     return (
         <View style={styles.container}>
             <Controller
@@ -25,12 +26,14 @@ const FormInput: React.FC<FormInputProps> = ({ control, name, placeholder, rules
                     <TextInput
                         style={[styles.input, inputStyle, errors[name] && styles.errorInput]}
                         placeholder={placeholder}
-                        placeholderTextColor={COLORS.muted}
+                        placeholderTextColor={"#000"}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
                         secureTextEntry={secureText}
                         editable={editable}
+                        keyboardType={keyboardType}
+    
                     />
                 )}
             />

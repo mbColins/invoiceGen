@@ -24,7 +24,7 @@ export const invoiceApi = createApi({
   endpoints: (build) => ({
     invoice: build.mutation<any, any>({
       query: (body) => ({
-        url: "/",
+        url: "/new",
         method: "POST",
         body,
       }),

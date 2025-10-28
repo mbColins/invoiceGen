@@ -10,7 +10,7 @@ type LabelProps ={
 const Label: React.FC<LabelProps> = ({labeText,labelStyle}) => {
   return (
     <View style={[styles.container,labelStyle]}>
-      <Text style={styles.textStyle}>{labeText}</Text>
+      <Text style={[styles.textStyle,labelStyle]}>{labeText}</Text>
     </View>
   )
 }

@@ -7,27 +7,27 @@ export const authenticationApi = createApi({
   reducerPath: 'authenticationApi',
   baseQuery: fetchBaseQuery({
     baseUrl,
-    prepareHeaders: async (headers) => {
-      try {
-        const token = await AsyncStorage.getItem('accessToken');
-        if (token) {
-          // Decode token to check expiry
-          const { exp } = jwtDecode<{ exp: number }>(token);
-          const now = Date.now() / 1000;
+    // prepareHeaders: async (headers) => {
+    //   try {
+    //     const token = await AsyncStorage.getItem('accessToken');
+    //     if (token) {
+    //       // Decode token to check expiry
+    //       const { exp } = jwtDecode<{ exp: number }>(token);
+    //       const now = Date.now() / 1000;
 
-          if (exp < now) {
-            console.log('Token expired, removing from storage');
-            await AsyncStorage.removeItem('accessToken');
-          } else {
-            headers.set('Authorization', `Bearer ${token}`);
-            console.log('Token attached:', token);
-          }
-        }
-      } catch (err) {
-        console.warn('Error checking token:', err);
-      }
-      return headers;
-    },
+    //       if (exp < now) {
+    //         console.log('Token expired, removing from storage');
+    //         await AsyncStorage.removeItem('accessToken');
+    //       } else {
+    //         headers.set('Authorization', `Bearer ${token}`);
+    //         console.log('Token attached:', token);
+    //       }
+    //     }
+    //   } catch (err) {
+    //     console.warn('Error checking token:', err);
+    //   }
+    //   return headers;
+    // },
   }),
   tagTypes: ['Auth'],
   endpoints: (build) => ({

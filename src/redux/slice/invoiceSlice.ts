@@ -7,7 +7,6 @@ interface InvoiceData {
     quantity: string;
     unitPrice: string;
     sellerSignature: string;
-    customerSignature: string;
 }
 
 
@@ -19,7 +18,6 @@ const initialState: { data: InvoiceData } = {
         'quantity': '',
         'unitPrice': '',
         'sellerSignature': '',
-        'customerSignature': ''
     }
 }
 
