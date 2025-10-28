@@ -1,26 +1,28 @@
 
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../utils/types';
 import { useNavigation } from '@react-navigation/native';
 import FormInput from '../../components/TextInput';
 import { useForm, useFieldArray } from 'react-hook-form';
 import Label from '../../utils/Label';
-import { Contact, Upload, UserRound, UserRoundPlus } from 'lucide-react-native';
-import theme from '../../utils/theme';
+import { Contact, Save, Store, Upload, UserRound, UserRoundPlus } from 'lucide-react-native';
+import theme, { screenWidth } from '../../utils/theme';
+
 
 interface Item {
   description: string;
-  quantity: string;
-  unitprice: string;
-  tax: string;
-  total: string;
+  quantity: number;
+  unitprice: number;
+  tax: number;
+  total: number;
 }
 
 interface InvoiceForm {
   customername: string;
   phonenumber: string;
+  signature : string;
   items: Item[];
 }
 
@@ -28,11 +30,13 @@ const Invoice = () => {
   type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'register', 'home'>;
   const navigation = useNavigation<NavigationProps>();
 
+
   const { control, handleSubmit, formState: { errors } } = useForm<InvoiceForm>({
     defaultValues: {
       customername: '',
       phonenumber: '',
-      items: [{ description: '', quantity: '', unitprice: '', tax: '', total: '' }],
+      signature: '',
+      items: [{ description: '', quantity: 0, unitprice: 0, tax: 0, total: 0 }],
     },
   });
 
@@ -48,17 +52,22 @@ const Invoice = () => {
 
   return (
     <ScrollView style={styles.container}>
-     
+
       <Text style={styles.headerText}>
         Fill in the following form to generate your invoice
       </Text>
 
       {/* Customer Info */}
       <View style={styles.infoBox}>
-        <Text style={styles.infoBoxTitle}>Customer Information</Text>
-        <View style={{ display: 'flex', flexDirection: 'row', width: 200, gap: 10, marginTop: 20 }}>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={styles.infoBoxTitle}>Customer Information</Text>
+          <TouchableOpacity style={{ marginTop: 8 }}>
+            <Text style={styles.infoBoxTitle}><Store /></Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.customerDetails}>
           <View>
-            <Label labeText='customer name' />
+            <Label labeText='customer name' labelStyle={styles.labelStyle} />
             <FormInput
               placeholder="Customer name"
               name="customername"
@@ -67,21 +76,23 @@ const Invoice = () => {
               rules={{ required: 'Customer name is required' }}
               inputStyle={styles.inputStyle}
               secureText={false}
+              editable={false}
             />
           </View>
           <TouchableOpacity style={styles.contactBtn}>
-            <UserRoundPlus size={30} color={theme.COLORS.text} />
+            <UserRoundPlus size={30} color={'#000'} />
           </TouchableOpacity>
         </View>
-        <Label labeText='phone number' />
+        <Label labeText='phone number' labelStyle={styles.labelStyle} />
         <FormInput
           placeholder="Phone number"
           name="phonenumber"
           control={control}
           errors={errors}
           rules={{ required: 'Phone number is required' }}
-          inputStyle={{ borderWidth: 1, marginTop: 4, height: 41 }}
+          inputStyle={{ width: screenWidth - 25, borderWidth: 1, marginTop: 4, height: 41, backgroundColor: theme.COLORS.text, marginHorizontal: 3 }}
           secureText={false}
+          editable={false}
         />
       </View>
 
@@ -91,83 +102,88 @@ const Invoice = () => {
 
         {fields.map((item, index) => (
           <View key={item.id} style={{ marginTop: 10 }}>
-            <Label labeText='description/designation' />
+            <Label labeText='description/designation:' labelStyle={{ color: '#000' }} />
             <FormInput
-              placeholder="Description"
+              placeholder="ex:  usb keys"
               name={`items.${index}.description`}
               control={control}
               errors={errors}
               rules={{ required: 'Description is required' }}
-              inputStyle={{ borderWidth: 1, marginTop: 4, height: 41 }}
+              inputStyle={styles.itemsLongInput}
               secureText={false}
+              editable={false}
             />
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <View>
-                <Label labeText='quanity' />
+                <Label labeText='quanity:' labelStyle={{ color: '#000' }} />
                 <FormInput
-                  placeholder="Quantity"
+                  placeholder="ex: 10"
                   name={`items.${index}.quantity`}
                   control={control}
                   errors={errors}
                   rules={{ required: 'Quantity is required' }}
-                  inputStyle={{ borderWidth: 1, height: 41, width: 162 }}
+                  inputStyle={styles.itemsShortInput}
                   secureText={false}
+                  editable={false}
                 />
               </View>
               <View>
-                <Label labeText='unit price' />
+                <Label labeText='unit price(xaf):' labelStyle={{ color: '#000' }} />
                 <FormInput
-                  placeholder="Unit price"
+                  placeholder="ex: 1500"
                   name={`items.${index}.unitprice`}
                   control={control}
                   errors={errors}
                   rules={{ required: 'Unit price is required' }}
-                  inputStyle={{ borderWidth: 1, height: 41, width: 162 }}
+                  inputStyle={styles.itemsShortInput}
                   secureText={false}
+                  editable={false}
                 />
               </View>
             </View>
             <View style={{ marginTop: 5 }}>
-              <Label labeText='tax' />
+              <Label labeText='tax:' labelStyle={{ color: '#000' }} />
               <FormInput
                 placeholder="ex:0.23"
                 name={`items.${index}.tax`}
                 control={control}
                 errors={errors}
                 rules={{ required: 'Tax is required' }}
-                inputStyle={{ borderWidth: 1, height: 41 }}
+                inputStyle={styles.itemsLongInput}
                 secureText={false}
+                editable={false}
               />
             </View>
             <View>
-              <Label labeText='total' />
+              <Label labeText='total:' labelStyle={{ color: '#000' }} />
               <FormInput
-                placeholder="total"
+                placeholder="0.0"
                 name={`items.${index}.total`}
                 control={control}
                 errors={errors}
                 rules={{ required: 'Total is required' }}
-                inputStyle={{ borderWidth: 1, height: 41 }}
+                inputStyle={styles.itemsLongInput}
                 secureText={false}
+                editable={false}
               />
             </View>
 
 
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end', gap: 10 }}>
+            <View style={styles.addItem}>
               <TouchableOpacity
                 onPress={() =>
-                  append({ description: '', quantity: '', unitprice: '', tax: '', total: '' })
+                  append({ description: '', quantity: 0, unitprice: 0, tax: 0, total: 0 })
                 }
                 style={styles.addButton}
               >
-                <Text style={{ color: '#ccc' }}>Add another item</Text>
+                <Text style={{ color: theme.COLORS.primary }}>add item</Text>
               </TouchableOpacity>
               {index > 0 && (
                 <TouchableOpacity
                   onPress={() => remove(index)}
                   style={styles.removeButton}
                 >
-                  <Text style={{ color: 'red' }}>Remove item</Text>
+                  <Text style={{ color: 'red' }}>remove item</Text>
                 </TouchableOpacity>
               )}
 
@@ -180,11 +196,12 @@ const Invoice = () => {
       </View>
       <View style={{ borderWidth: 1, borderColor: "#fff", height: 100, marginTop: 15, borderRadius: 10 }}>
         <Text style={{ color: theme.COLORS.text, textAlign: 'center' }}> digital signature</Text>
+     
       </View>
 
       {/* Submit */}
       <TouchableOpacity style={styles.saveButton} onPress={handleSubmit(onSubmit)}>
-        <Text style={{ textAlign: 'center', color: theme.COLORS.primary }}>Save </Text>
+        <Text style={{ textAlign: 'center', color: theme.COLORS.text, }}>Save</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -196,7 +213,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: '#000121ff',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
   headerText: {
     textAlign: 'center',
@@ -204,23 +221,26 @@ const styles = StyleSheet.create({
     color: '#ccc',
   },
   infoBox: {
-    marginTop: 10,
+    marginTop: 10, backgroundColor: "#fff", width: theme.screenWidth - 20, borderRadius: 15, paddingBottom: 8,
   },
   infoBoxTitle: {
     paddingHorizontal: 10,
     fontWeight: '600',
-    marginTop: '10%',
-    color: '#ccc',
+    marginTop: '5%',
+    color: '#070707ff',
   },
+  customerDetails: { display: 'flex', flexDirection: 'row', width: screenWidth - 20, gap: 10, marginTop: 20, paddingHorizontal: 5, justifyContent: 'center', alignItems: 'center' },
   itemsContainer: {
-    marginTop: 10,
+    marginTop: 10, backgroundColor: theme.COLORS.text, borderTopLeftRadius: 10, borderTopRightRadius: 10, paddingHorizontal: 5
   },
+  itemsLongInput: { borderWidth: 1, marginTop: 4, height: 41, backgroundColor: theme.COLORS.text, width: screenWidth - 30 },
+  itemsShortInput: { borderWidth: 1, backgroundColor: theme.COLORS.text, width: screenWidth - 200 },
   addButton: {
     padding: 5,
     borderWidth: 1,
     borderRadius: 10,
     marginTop: 10,
-    borderColor: '#ccc',
+    borderColor: theme.COLORS.primary,
   },
   removeButton: {
     alignSelf: 'flex-end',
@@ -234,10 +254,12 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#ccc',
     marginVertical: 20,
     paddingVertical: 10,
+    backgroundColor: theme.COLORS.primary
   },
-  inputStyle: { width: 270, borderWidth: 1, height: 42 },
-  contactBtn: { marginTop: 25, borderRadius: 10, borderWidth: 1, borderColor: '#fff', width: 45, display: 'flex', justifyContent: 'center', alignItems: 'center', height: 41 }
+  inputStyle: { width: theme.screenWidth - 90, borderWidth: 1, height: 41, backgroundColor: theme.COLORS.text },
+  contactBtn: { marginTop: 19, borderRadius: 10, borderWidth: 1, width: 45, display: 'flex', justifyContent: 'center', alignItems: 'center', height: 41 },
+  labelStyle: { color: '#000' },
+  addItem: { display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end', gap: 10, marginBottom: 15, borderColor: theme.COLORS.primary }
 });

@@ -11,9 +11,10 @@ interface FormInputProps {
     errors: FieldErrors;
     inputStyle?: TextStyle;
     secureText:boolean;
+    editable:boolean
 }
 
-const FormInput: React.FC<FormInputProps> = ({ control, name, placeholder, rules, errors, inputStyle, secureText }) => {
+const FormInput: React.FC<FormInputProps> = ({ control, name, placeholder, rules, errors, inputStyle, secureText,editable }) => {
     return (
         <View style={styles.container}>
             <Controller
@@ -29,6 +30,7 @@ const FormInput: React.FC<FormInputProps> = ({ control, name, placeholder, rules
                         onChangeText={onChange}
                         value={value}
                         secureTextEntry={secureText}
+                        editable={editable}
                     />
                 )}
             />

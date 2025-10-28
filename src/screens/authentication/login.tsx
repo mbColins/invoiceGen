@@ -9,6 +9,7 @@ import theme, { COLORS } from '../../utils/theme';
 import { Eye, EyeClosed, Lock, PlaneTakeoff, User } from 'lucide-react-native';
 import TextLogo from '../../utils/Logo';
 import { useAuthUserMutation } from '../../redux/apis/authenticationPis';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Label from '../../utils/Label';
 import ModalComponent from '../../utils/Modal';
 import { showToast } from '../../utils/Toast';
@@ -26,13 +27,15 @@ const LoginScreen = () => {
     const [visible, setVisible] = useState(false);
     const [showPassWord, SetShowPassWord] = useState(false);
 
+    type regitrationNavigation = NativeStackNavigationProp<RootStackParamList, 'register', 'home'>;
+
     const navigation = useNavigation<regitrationNavigation>();
     const dispatch = useDispatch();
 
     const [authUser, { data, isLoading, isError, isSuccess, error }] = useAuthUserMutation();
     const { control, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
-    type regitrationNavigation = NativeStackNavigationProp<RootStackParamList, 'register', 'home'>;
+  
 
     useEffect(() => {
         if (isSuccess && data) {
@@ -40,12 +43,14 @@ const LoginScreen = () => {
             console.log('Login successful:', data);
             dispatch(clearLogin());
             reset();
+            AsyncStorage.setItem('accessToken', data?.accessToken);
             navigation.navigate('home');
             showToast("✅ Login successful!  Welcome back");
         }
         if (isError) {
             setVisible(false);
             Alert.alert('Login Error', 'Invalid credentials or network issue');
+            console.log(error)
         }
     }, [isSuccess, isError, data, navigation]);
 
@@ -80,6 +85,7 @@ const LoginScreen = () => {
                         errors={errors}
                         rules={{ required: 'user name is required' }}
                         secureText={false}
+                        editable={true}
                     />
                 </View>
 
@@ -93,6 +99,7 @@ const LoginScreen = () => {
                             errors={errors}
                             rules={{ required: 'password is required' }}
                             secureText={showPassWord}
+                             editable={true}
                         />
                     </View>
                     <TouchableOpacity onPress={() => SetShowPassWord(!showPassWord)} style={styles.optionBtn}>

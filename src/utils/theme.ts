@@ -1,5 +1,10 @@
 // src/constants/theme.ts
 
+import { Dimensions } from "react-native";
+
+
+export const screenWidth = Dimensions.get('window').width;
+
 export const COLORS = {
   primary: '#1E90FF',      // Blue
   secondary: '#FFB800',    // Amber
@@ -52,6 +57,7 @@ const theme = {
   FONT_WEIGHT,
   SPACING,
   RADIUS,
+  screenWidth,
 };
 
 export default theme;

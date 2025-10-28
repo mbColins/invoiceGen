@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, FlatList, Image, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import Status from '../../utils/StatusBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,6 +8,7 @@ import { RootStackParamList } from '../../utils/types';
 import { useNavigation } from '@react-navigation/native';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import theme from '../../utils/theme';
+import { useGetCurrentUserInvoicesQuery } from '../../redux/apis/invoiceApi';
 
 // const purchaseInvoice = ;
 // const service = ;
@@ -28,7 +29,13 @@ const HomeScreen = () => {
 
   type invoiceNavigation = NativeStackNavigationProp<RootStackParamList>;
   const navigation = useNavigation<invoiceNavigation>();
-
+  
+ const { data = [], isFetching, refetch, isError, isSuccess } = useGetCurrentUserInvoicesQuery({
+    filter: undefined,
+    search: undefined,
+    page: 0,
+    size: 10,
+  });
 
   const handleNavigation = (type: keyof RootStackParamList) => {
     navigation.navigate(type);
@@ -60,7 +67,7 @@ const HomeScreen = () => {
       <FlatList
         data={invoiceTypes}
         keyExtractor={(_, index) => index.toString()}
-        numColumns={3}
+        numColumns={4}
         contentContainerStyle={styles.contentContainer}        // ListHeaderComponent={
         renderItem={({ item }) => (
          <View style={styles.card}>
@@ -71,12 +78,34 @@ const HomeScreen = () => {
             <Text style={{ color: '#0b0b0bff',fontSize: 10,marginTop:10}}>{item.title}</Text>
          </View>
         )}
-        ListFooterComponent={
-          
-            <Text style={{textAlign:'left', marginLeft:20, fontWeight:500, marginTop:30}}>Recent transactions</Text>
-        
-        }
-        ListFooterComponentStyle={styles.footerStyle}
+         ListFooterComponent={
+
+        <View>
+          <Text style={{ textAlign: 'left', marginLeft: 20, fontWeight: 500, marginTop: 30 }}>Recent transactions</Text>
+          <FlatList
+            data={data?.table ?? []} // <-- use the table array
+            keyExtractor={(item) => item?.id} // use unique id if available
+            renderItem={({ item, index }) => (
+              <TouchableOpacity key={index} style={styles.incoices}>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Text style={{ fontWeight: 500 }}>{item.customerName}</Text>
+                  <Text style={{ fontSize: 8, color: theme.COLORS.success, fontWeight: 800, textAlign: 'center' }}>paid</Text>
+                </View>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 3 }} key={index}>
+                  <Text style={{ fontSize: 12 }}>puchase: {item.invoiceNumber}</Text>
+                  <Text style={{ fontSize: 10 }}>{(item.createdAt)}</Text>
+                  <Text style={{ fontSize: 12 }}>XAF:{item.totalAmount}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+            scrollEnabled
+            refreshControl={<RefreshControl refreshing={isFetching}/>}
+          />
+        </View>
+
+
+      }
+      ListFooterComponentStyle={styles.footerStyle}
       />
          
     </SafeAreaView>
@@ -97,5 +126,6 @@ const styles = StyleSheet.create({
   statisticsItem: { justifyContent: 'center', alignItems: 'flex-start' },
   text: { color: theme.COLORS.text, fontSize: 12, textAlign: 'left', fontStyle: 'italic' },
   contentContainer: {paddingBottom: 20,backgroundColor: '#fff',marginTop: 30,width: screenWidth,justifyContent: 'center',alignItems: 'center', borderTopEndRadius:20,borderTopStartRadius:20},
-  footerStyle: {justifyContent:'flex-start', alignItems:'flex-start', alignContent:'flex-start', width:screenWidth}
+  footerStyle: {justifyContent:'flex-start', alignItems:'flex-start', alignContent:'flex-start', width:screenWidth},
+   incoices: { marginHorizontal: 10, width: screenWidth - 20, borderBottomWidth: 1, borderBottomColor: '#d7d2d2ff', marginVertical: 5, backgroundColor: '#faf6f6ff', padding: 5, borderRadius: 10 }
 });
