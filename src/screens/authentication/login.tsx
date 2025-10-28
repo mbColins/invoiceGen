@@ -14,7 +14,6 @@ import ModalComponent from '../../utils/Modal';
 import { showToast } from '../../utils/Toast';
 import { clearLogin } from '../../redux/slice/loginSlice';
 import { useDispatch } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface FormData {
     username: string;
@@ -41,10 +40,8 @@ const LoginScreen = () => {
             console.log('Login successful:', data);
             dispatch(clearLogin());
             reset();
-             AsyncStorage.setItem('accessToken', data?.accessToken);
             navigation.navigate('home');
             showToast("✅ Login successful!  Welcome back");
-            console.log(data?.accessToken)
         }
         if (isError) {
             setVisible(false);
