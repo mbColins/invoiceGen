@@ -20,6 +20,8 @@ const invoiceTypes: { title: string; image: any, type: string }[] = [
   { title: 'expense report', image: require('../../assets/images/expense.jpg'), type: 'service' },
   { title: 'invoice', image: require('../../assets/images/invoice.jpg'), type: 'service' },
   { title: 'custom receipt', image: require('../../assets/images/receipt.jpg'), type: 'service' },
+  { title: 'invoice', image: require('../../assets/images/invoice.jpg'), type: 'service' },
+  { title: 'custom receipt', image: require('../../assets/images/receipt.jpg'), type: 'service' },
 ];
 
 const screenWidth = Dimensions.get('window').width;
@@ -118,11 +120,11 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000121ff', alignItems: 'center' },
   title: { justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 20 },
   card: {
-    backgroundColor: "#d7e3fcff", height: 70, width: 70, alignItems: 'center', borderRadius: 10, marginVertical: 10, marginHorizontal: 15, paddingTop: 25,justifyContent:'center'
+    backgroundColor: "#d7e3fcff", height: 70, width: 70, alignItems: 'center', borderRadius: 10, marginVertical: 10, marginHorizontal: 10, paddingTop: 25,justifyContent:'center',
   },
   invoice: { height: 50, width: 50, borderRadius: 10 },
   btn: { position: 'absolute', bottom: 30 },
-  statistics: { backgroundColor: '#5a5959ff', height: '10%', width: '95%', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 30, borderRadius: 10 },
+  statistics: { backgroundColor: '#5a5959ff', height: '10%', width: '95%', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 30, borderRadius: 10, marginBottom:10 },
   statisticsItem: { justifyContent: 'center', alignItems: 'flex-start' },
   text: { color: theme.COLORS.text, fontSize: 12, textAlign: 'left', fontStyle: 'italic' },
   contentContainer: {paddingBottom: 20,backgroundColor: '#fff',marginTop: 30,width: screenWidth,justifyContent: 'center',alignItems: 'center', borderTopEndRadius:20,borderTopStartRadius:20},
