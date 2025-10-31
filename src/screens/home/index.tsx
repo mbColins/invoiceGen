@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import theme from '../../utils/theme';
 import { useGetCurrentUserInvoicesQuery } from '../../redux/apis/invoiceApi';
+import formatDateToDDMMYY from '../../utils/utils';
 
 // const purchaseInvoice = ;
 // const service = ;
@@ -100,7 +101,7 @@ const HomeScreen = () => {
                   </View>
                   <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 3 }} key={index}>
                     <Text style={{ fontSize: 12 }}>puchase: {item.invoiceNumber}</Text>
-                    <Text style={{ fontSize: 10 }}>{(item.createdAt)}</Text>
+                    <Text style={{ fontSize: 10 }}>{formatDateToDDMMYY(item.createdAt)}</Text>
                     <Text style={{ fontSize: 12 }}>XAF:{item.totalAmount}</Text>
                   </View>
                 </TouchableOpacity>

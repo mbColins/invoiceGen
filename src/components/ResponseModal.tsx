@@ -48,7 +48,7 @@ export default ResponseModal;
 const styles = StyleSheet.create({
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: 'rgba(24, 6, 6, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
     },

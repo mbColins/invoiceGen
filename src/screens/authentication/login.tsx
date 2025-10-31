@@ -35,7 +35,7 @@ const LoginScreen = () => {
     const [authUser, { data, isLoading, isError, isSuccess, error }] = useAuthUserMutation();
     const { control, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
-  
+
 
     useEffect(() => {
         if (isSuccess && data) {
@@ -75,9 +75,10 @@ const LoginScreen = () => {
                 <Text style={styles.title}>Hi, welcome back</Text>
                 <Text style={styles.subtitle}>login with your credentials</Text>
             </View>
-            <View style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
-                <View>
-                    <Text style={{ marginLeft: 10 }}><User color={theme.COLORS.text} size={20} style={{ marginRight: 10, alignSelf: 'center' }} /><Label labeText='username: ' /></Text>
+            <View style={styles.formContainer}>
+                <View style={{marginTop:50}}>
+                    <Text style={{ marginLeft: 10 }}><User color={'#000'} size={20} style={{ marginRight: 10, alignSelf: 'center' }} />
+                        <Label labeText='username: ' labelStyle={{ color: "#000" }} /></Text>
                     <FormInput
                         placeholder="username"
                         name="username"
@@ -86,12 +87,14 @@ const LoginScreen = () => {
                         rules={{ required: 'user name is required' }}
                         secureText={false}
                         editable={true}
+                        inputStyle={styles.inputStyles}
                     />
                 </View>
 
                 <View>
                     <View>
-                        <Text style={{ marginLeft: 10 }}><Lock color={theme.COLORS.text} size={20} style={{ marginRight: 10, alignSelf: 'center' }} /><Label labeText='password: ' /></Text>
+                        <Text style={{ marginLeft: 10 }}><Lock color={theme.COLORS.background} size={20} style={{ marginRight: 10, alignSelf: 'center' }} />
+                        <Label labeText='password: ' labelStyle={{color:theme.COLORS.background}} /></Text>
                         <FormInput
                             placeholder='password'
                             name='password'
@@ -99,11 +102,12 @@ const LoginScreen = () => {
                             errors={errors}
                             rules={{ required: 'password is required' }}
                             secureText={showPassWord}
-                             editable={true}
+                            editable={true}
+                            inputStyle={styles.inputStyles}
                         />
                     </View>
                     <TouchableOpacity onPress={() => SetShowPassWord(!showPassWord)} style={styles.optionBtn}>
-                        {showPassWord ? <EyeClosed color={theme.COLORS.text} /> : <Eye color={theme.COLORS.text} />}
+                        {showPassWord ? <EyeClosed color={theme.COLORS.background} /> : <Eye color={theme.COLORS.background} />}
                     </TouchableOpacity>
                 </View>
             </View>
@@ -159,11 +163,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 15,
     },
+    inputStyles:{ backgroundColor: "#fff", color:theme.COLORS.background},
     optionBtn: { paddingTop: 25, position: 'absolute', right: 20 },
     button: {
         borderWidth: 1, width: '100%', borderRadius: 10, height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.COLORS.primary
     },
     signUpBtn: { marginTop: '20%', marginBottom: '5%', alignItems: 'flex-start', width: '100%' },
+    formContainer:{ display: 'flex', flexDirection: 'column', gap: 15, backgroundColor: "#fff", borderRadius:10, height:theme.screenHeight-500 },
     buttonText: {
         color: '#fff',
         fontSize: 18,

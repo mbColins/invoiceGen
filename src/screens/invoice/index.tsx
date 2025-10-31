@@ -299,7 +299,7 @@ const Invoice = () => {
       <ModalComponent
         visible={visible && isLoading}
         onClose={() => setVisible(false)}
-        message="Submiting invoice......"
+        message="Saving  invoice......"
         showLoader={true}
       />
     </ScrollView>
