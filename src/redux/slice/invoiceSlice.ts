@@ -1,24 +1,32 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
+interface ItemsData {
+  itemDetails: string;
+  quantity: number;
+  unitPrice: number;
+  tax: number;
+  total: number;
+  discount: number;
+
+}
+
 interface InvoiceData {
-    customerName: string;
-    customerPhoneNumber: string;
-    itemDetails: string;
-    quantity: string;
-    unitPrice: string;
-    sellerSignature: string;
+  customerName: string;
+  customerPhoneNumber: string;
+  sellerSignature: string;
+  customerSignature: string;
+  items: ItemsData[];
 }
 
 
 const initialState: { data: InvoiceData } = {
-    data: {
-        'customerName': '',
-        'customerPhoneNumber': '',
-        'itemDetails': '',
-        'quantity': '',
-        'unitPrice': '',
-        'sellerSignature': '',
-    }
+  data: {
+    'customerName': '',
+    'customerPhoneNumber': '',
+    'sellerSignature': '',
+    'customerSignature': '',
+    items: []
+  }
 }
 
 const invoiceSlice = createSlice({
@@ -29,11 +37,13 @@ const invoiceSlice = createSlice({
       state.data = { ...state.data, ...action.payload };
     },
     clearInvoice: (state) => {
-      Object.keys(state.data).forEach((key) => {
-        state.data[key as keyof InvoiceData] = '';
-      });
+      state.data.customerName = '';
+      state.data.customerPhoneNumber = '';
+      state.data.sellerSignature = '';
+      state.data.customerSignature = '';
+      state.data.items = []; // reset items array
     }
   }
 });
-export const {registerInvoice } = invoiceSlice.actions;
+export const { registerInvoice } = invoiceSlice.actions;
 export default invoiceSlice.reducer;

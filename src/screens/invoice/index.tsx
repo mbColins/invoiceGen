@@ -33,7 +33,7 @@ const Invoice = () => {
 
   const [visible, setVisible] = useState(false);
 
-  type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'home','shop'>;
+  type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'home', 'shop'>;
   const navigation = useNavigation<NavigationProps>();
 
   const signatureRef = useRef<SignatureRef>(null);
@@ -64,24 +64,61 @@ const Invoice = () => {
   })
 
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'items',
-  });
+  const { fields, append, remove } = useFieldArray({control,name: 'items',});
 
-  const onSubmit = async (data: InvoiceForm) => {
-    setVisible(true)
-    console.log('Invoice submitted:', data);
+  const onSubmit = async (formValues: InvoiceForm) => {
+    setVisible(true);
+
+    const formData = new FormData();
+
+    console.log(formData)
+
+    // 👇 Basic customer info
+    formData.append("customerName", formValues.customerName);
+    formData.append("customerPhoneNumber", formValues.customerPhoneNumber);
+    formData.append("customerSignature", formValues.customerSignature);
+
+    console.log(formValues.customerSignature)
+    // 👇 Add signature if available (base64 to file)
+
+    // 👇 Add items dynamically (like Postman fields)
+    formValues.items.forEach((item, index) => {
+      formData.append(`invoiceRequests[${index}].invoice[itemDetails]`, item.itemDetails);
+      formData.append(`invoiceRequests[${index}].invoice[quantity]`, item.quantity.toString());
+      formData.append(`invoiceRequests[${index}].invoice[unitPrice]`, item.unitPrice.toString());
+      formData.append(`invoiceRequests[${index}].invoice[discount]`, item.tax.toString());
+    });
+
     try {
-      const payload = [data]
-      await invoice(payload).unwrap();
-      console.log(data)
-    } catch (error) {
-      setVisible(false)
-      console.error('Error submitting invoice:', error);
-      Alert.alert('Invoice Error', 'An unexpected error occurred.');
+      const response = await invoice(formData).unwrap();
+      console.log("✅ Invoice created:", response);
+
+      // optional success message
+      Alert.alert("Success", "Invoice created successfully!");
+      navigation.navigate("home");
+
+    } catch (err) {
+      console.error("❌ Invoice creation failed:", err);
+      Alert.alert("Error", "Could not create invoice. Try again.");
+    } finally {
+      setVisible(false);
     }
   };
+
+
+  // const onSubmit = async (data: InvoiceForm) => {
+  //   setVisible(true)
+  //   console.log('Invoice submitted:', data);
+  //   try {
+  //     const payload = data
+  //     await invoice(payload).unwrap();
+  //     console.log(data)
+  //   } catch (error) {
+  //     setVisible(false)
+  //     console.error('Error submitting invoice:', error);
+  //     Alert.alert('Invoice Error', 'An unexpected error occurred.');
+  //   }
+  // };
 
   return (
     <ScrollView style={styles.container}>
@@ -95,8 +132,8 @@ const Invoice = () => {
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={styles.infoBoxTitle}>Customer Information</Text>
           <TouchableOpacity
-          onPress={() => navigation.navigate('shop')}
-          style={{ marginTop: 8 }}>
+            onPress={() => navigation.navigate('shop')}
+            style={{ marginTop: 8 }}>
             <Text style={styles.infoBoxTitle}><Store /></Text>
           </TouchableOpacity>
         </View>
@@ -245,11 +282,14 @@ const Invoice = () => {
           height={65}
         />
 
-        <TouchableOpacity
-          onPress={() => signatureRef.current?.clear()}
-          style={{ width: theme.screenWidth - 50 }}>
-          <Text style={{ color: theme.COLORS.text, textAlign: 'right', marginHorizontal: 15, padding: 5 }}>clear</Text>
-        </TouchableOpacity>
+        <View style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: theme.screenWidth - 50 }}>
+          <TouchableOpacity
+            onPress={() => signatureRef.current?.clear()}
+            style={{ width: 100, justifyContent: "flex-end" }}>
+            <Text style={{ color: theme.COLORS.text, textAlign: 'right', marginHorizontal: 15, padding: 5 }}>clear</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
 
       {/* Submit */}

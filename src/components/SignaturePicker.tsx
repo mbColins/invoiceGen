@@ -1,5 +1,5 @@
-import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react';
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
+import React, { useRef, forwardRef, useImperativeHandle } from 'react';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import SignatureCanvas, { SignatureViewRef } from 'react-native-signature-canvas';
 
 interface SignatureProps {
@@ -12,6 +12,7 @@ interface SignatureProps {
 
 export interface SignatureRef {
   clear: () => void;
+  save: () => void; // manually trigger saving
 }
 
 const SignatureScreen = forwardRef<SignatureRef, SignatureProps>(
@@ -25,25 +26,22 @@ const SignatureScreen = forwardRef<SignatureRef, SignatureProps>(
     },
     ref
   ) => {
-    const [signature, setSignature] = useState<string | null>(null);
     const signatureRef = useRef<SignatureViewRef>(null);
 
-    // Expose clear to parent
+    // Expose clear & save to parent
     useImperativeHandle(ref, () => ({
-      clear: () => {
-        setSignature(null);
-        signatureRef.current?.clearSignature?.();
-      },
+      clear: () => signatureRef.current?.clearSignature?.(),
+      save: () => signatureRef.current?.readSignature?.(), // triggers onOK
     }));
 
-    const handleSignature = (sig: string) => {
-      console.log('Signature captured:', sig.substring(0, 50) + '...');
-      setSignature(sig);
-      onSave(sig);
+    // This receives the signature base64
+    const handleOK = (signature: string) => {
+      console.log('Signature captured:', signature.substring(0, 50) + '...');
+      onSave(signature);
     };
 
     const webStyle = `
-      .m-signature-pad--footer {display: none; margin: 0px;}
+      .m-signature-pad--footer {display: none;}
       .m-signature-pad {box-shadow: none; border: none;}
       body, html { background: ${backgroundColor}; }
       canvas { background: ${backgroundColor}; border-radius: 8px; }
@@ -51,50 +49,30 @@ const SignatureScreen = forwardRef<SignatureRef, SignatureProps>(
 
     return (
       <View style={styles.container}>
-        {/* Signature preview */}
-        {signature ? (
-          <Image
-            resizeMode="contain"
-            style={[styles.preview, { width, height }]}
-            source={{ uri: signature }}
+        <View style={[styles.preview, { width, height }]}>
+          <SignatureCanvas
+            ref={signatureRef}
+            onOK={handleOK}       // ✅ receives the signature
+            onEmpty={() => console.log('Empty signature')}
+            descriptionText="Sign here"
+            webStyle={webStyle}
+            penColor={penColor}
+            backgroundColor={backgroundColor}
+            autoClear={false}
+            webviewProps={{
+              androidLayerType: 'hardware',
+              cacheEnabled: false,
+            }}
           />
-        ) : (
-          <View style={[styles.preview, { width, height }]}>
-            <SignatureCanvas
-              ref={signatureRef}
-              onOK={handleSignature}
-              onEmpty={() => console.log('Empty signature')}
-              descriptionText="Sign here"
-              clearText="Clear"
-              confirmText="Save"
-              webStyle={webStyle}
-              penColor={penColor}
-              backgroundColor={backgroundColor}
-              autoClear={false}
-              webviewProps={{
-                androidLayerType: 'hardware',
-                cacheEnabled: false,
-              }}
-            />
-          </View>
-        )}
+        </View>
       </View>
     );
   }
 );
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-  },
-  preview: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
+  container: { alignItems: 'center', justifyContent: 'center', marginVertical: 10 },
+  preview: { borderWidth: 1, borderColor: '#ccc', borderRadius: 8, overflow: 'hidden' },
 });
 
 export default SignatureScreen;

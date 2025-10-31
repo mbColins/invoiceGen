@@ -21,5 +21,5 @@ const CustomStatusBar = () => {
 export default CustomStatusBar
 
 const styles = StyleSheet.create({
-  container: { height: 45, backgroundColor: theme.COLORS.text, width: '100%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 4 }
+  container: { height: 45, backgroundColor: theme.COLORS.text, width: '100%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 4, borderBottomRightRadius:10, borderBottomLeftRadius:10 }
 })
