@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../screens/home';
 import ProfileScreen from '../screens/profile';
 import MenuScreen from '../screens/menu';
-import { Home } from 'lucide-react-native';
+import { Home, User2 } from 'lucide-react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +28,13 @@ const BottomNavigation = () => {
 
             />
             <Tab.Screen name='menu' component={MenuScreen} />
-            <Tab.Screen name='profile' component={ProfileScreen} />
+            
+            <Tab.Screen name='profile' component={ProfileScreen}  options={{
+                 tabBarIcon: ({ color, size }) => <User2 color={color} size={size} />,
+                 headerShown:false,
+                 headerTitle:"Profiles",
+                headerTitleAlign:'center'
+            }}/>
         </Tab.Navigator>
     )
 }

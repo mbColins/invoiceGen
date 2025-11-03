@@ -15,7 +15,9 @@ export const COLORS = {
   muted: '#888888',        // Muted gray
   success: '#4CAF50',      // Green
   error: '#FF4C4C',        // Red
-  warning: '#FFC107',      // Yellow
+  warning: '#FFC107',  
+  screensBg: '#020221'
+      // Yellow
 };
 
 export const FONT_SIZE = {

@@ -26,7 +26,7 @@ const FormInput: React.FC<FormInputProps> = ({ control, name, keyboardType,place
                     <TextInput
                         style={[styles.input, inputStyle, errors[name] && styles.errorInput]}
                         placeholder={placeholder}
-                        placeholderTextColor={"#000"}
+                        placeholderTextColor={"#444242ff"}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}

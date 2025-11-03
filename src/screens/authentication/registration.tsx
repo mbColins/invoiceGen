@@ -70,7 +70,7 @@ const Registration = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <TextLogo />
       <Text style={styles.title}>InvoiceGen</Text>
 
@@ -85,6 +85,7 @@ const Registration = () => {
           errors={errors}
           rules={{ required: 'user name is required' }}
           secureText={false}
+          editable={true}
         />
         <Text style={styles.label}><Mail color={theme.COLORS.text} size={20} style={{ marginRight: 10, alignSelf: 'center' }} /><Label labeText='email: ' /></Text>
         <FormInput
@@ -93,6 +94,7 @@ const Registration = () => {
           control={control}
           errors={errors}
           secureText={false}
+          editable={true}
           rules={{
             required: 'Email is required',
             pattern: {
@@ -110,6 +112,7 @@ const Registration = () => {
           errors={errors}
           rules={{ required: ' phone number is required' }}
           secureText={false}
+          editable={true}
         />
 
         <View>
@@ -122,6 +125,7 @@ const Registration = () => {
               errors={errors}
               rules={{ required: 'password is required' }}
               secureText={showPassWord}
+              editable={true}
             />
           </View>
           <TouchableOpacity onPress={() => SetShowPassWord(!showPassWord)} style={styles.optionBtn}>
@@ -152,7 +156,7 @@ const Registration = () => {
         message="Saving you info..."
         showLoader={true}
       />
-    </ScrollView>
+    </View>
   );
 };
 

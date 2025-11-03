@@ -6,6 +6,7 @@ import invoiceReducer from './slice/invoiceSlice'
 import businessReducer from './slice/businessSlice'
 import { invoiceApi } from './apis/invoiceApi';
 import { businessApi } from './apis/businessApi';
+import { userApi } from './apis/userApi';
 
 export const store = configureStore({
   reducer: {
@@ -16,9 +17,11 @@ export const store = configureStore({
     [authenticationApi.reducerPath]: authenticationApi.reducer,
     [invoiceApi.reducerPath]: invoiceApi.reducer,
     [businessApi.reducerPath]: businessApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authenticationApi.middleware,invoiceApi.middleware, businessApi.middleware),
+    getDefaultMiddleware().concat(authenticationApi.middleware, invoiceApi.middleware,
+      businessApi.middleware, userApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>

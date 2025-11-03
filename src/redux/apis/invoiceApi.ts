@@ -31,25 +31,46 @@ export const invoiceApi = createApi({
       transformResponse: (response: any) => response?.data,
       transformErrorResponse: (response: any) => response?.status,
     }),
- 
-   getCurrentUserInvoices: build.query<any, { filter?: string; search?: string; page?: number; size?: number }>({
-    query: ({ filter, search, page = 0, size = 10 } = {}) => {
-      const params = new URLSearchParams();
-      if (filter) params.append('filter', filter);
-      if (search) params.append('search', search);
-      params.append('page', page.toString());
-      params.append('size', size.toString());
 
-      return {
-        url: `/my_invoices?${params.toString()}`,
-        method: 'GET',
-      };
-    },
-    transformResponse: (response: any) => response?.data,
-    transformErrorResponse: (response: any) => response?.status,
-  }),
+    getCurrentUserInvoices: build.query<any, { filter?: string; search?: string; page?: number; size?: number }>({
+      query: ({ filter, search, page = 0, size = 10 } = {}) => {
+        const params = new URLSearchParams();
+        if (filter) params.append('filter', filter);
+        if (search) params.append('search', search);
+        params.append('page', page.toString());
+        params.append('size', size.toString());
 
-})
+        return {
+          url: `/my_invoices?${params.toString()}`,
+          method: 'GET',
+        };
+      },
+      transformResponse: (response: any) => response?.data,
+      transformErrorResponse: (response: any) => response?.status,
+    }),
+
+
+    generateInvoice: build.query<any, void>({
+      query: (invoiceNumber) => ({
+        url: `/${invoiceNumber}/purchase`,
+        method: "GET",
+      }),
+      // transformResponse: (response: any) => response.data,
+      transformErrorResponse: (response: any) => response?.status,
+      providesTags: ["invoice"],
+    }),
+
+    getInvoice: build.query<any, void>({
+      query: (invoiceNumber) => ({
+        url: `/${invoiceNumber}`,
+        method: "GET",
+      }),
+      // transformResponse: (response: any) => response.data,
+      transformErrorResponse: (response: any) => response?.status,
+      providesTags: ["invoice"],
+    }),
+
+  })
 });
 
-export const { useInvoiceMutation, useGetCurrentUserInvoicesQuery } = invoiceApi;
+export const { useInvoiceMutation, useGetCurrentUserInvoicesQuery,useGenerateInvoiceQuery, useGetInvoiceQuery } = invoiceApi;
