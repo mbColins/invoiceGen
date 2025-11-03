@@ -7,4 +7,5 @@ export type RootStackParamList = {
   login: undefined;
   invoice: undefined;
   gift: undefined;
+ invoiceDetails: { invoiceNumber: string };
 };

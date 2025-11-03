@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const baseUrl = "http://192.168.1.246:2002/api/v1/invoice";
+const baseUrl = "http://192.168.1.127:2002/api/v1/invoice";
 
 export const invoiceApi = createApi({
   reducerPath: "invoiceApi",
@@ -50,7 +50,7 @@ export const invoiceApi = createApi({
     }),
 
 
-    generateInvoice: build.query<any, void>({
+    generateInvoice: build.query<any, string>({
       query: (invoiceNumber) => ({
         url: `/${invoiceNumber}/purchase`,
         method: "GET",
@@ -60,17 +60,17 @@ export const invoiceApi = createApi({
       providesTags: ["invoice"],
     }),
 
-    getInvoice: build.query<any, void>({
+    getInvoice: build.query<any, string>({
       query: (invoiceNumber) => ({
         url: `/${invoiceNumber}`,
         method: "GET",
       }),
       // transformResponse: (response: any) => response.data,
       transformErrorResponse: (response: any) => response?.status,
-      providesTags: ["invoice"],
+      providesTags: ["invoice"], 
     }),
 
   })
 });
 
-export const { useInvoiceMutation, useGetCurrentUserInvoicesQuery,useGenerateInvoiceQuery, useGetInvoiceQuery } = invoiceApi;
+export const { useInvoiceMutation, useGetCurrentUserInvoicesQuery,useLazyGenerateInvoiceQuery, useGetInvoiceQuery } = invoiceApi;

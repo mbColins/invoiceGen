@@ -10,6 +10,7 @@ import Invoice from '../screens/invoice'
 import GiftScreen from '../screens/giftReceipt'
 import BottomNavigation from './BottomNavigation'
 import theme from '../utils/theme'
+import InvoiceDetails from '../screens/invoicedetails'
 
 
 const Stack = createNativeStackNavigator()
@@ -73,6 +74,14 @@ const RoutNavigator = () => {
         options={{
           headerShown: true,
           headerTitle: "create gift receipt",
+          headerStyle: { backgroundColor: '#01021bff' },
+          headerTintColor: '#fff'
+        }}
+      />
+      <Stack.Screen name='invoiceDetails' component={InvoiceDetails}
+        options={{
+          headerShown: true,
+          headerTitle: "invoice details",
           headerStyle: { backgroundColor: '#01021bff' },
           headerTintColor: '#fff'
         }}

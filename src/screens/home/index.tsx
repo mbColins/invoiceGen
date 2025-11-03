@@ -40,10 +40,9 @@ const HomeScreen = () => {
     size: 10,
   });
 
-  const handleNavigation = (type: keyof RootStackParamList) => {
-    navigation.navigate(type);
+  const handleNavigation = (type: keyof RootStackParamList,params?: RootStackParamList[keyof RootStackParamList]) => {
+    navigation.navigate(type as any, params as any);
   };
-
   const handleRefresh = useCallback(() => {
     refetch();
   }, [refetch]);
@@ -94,7 +93,9 @@ const HomeScreen = () => {
               data={data?.table ?? []} // <-- use the table array
               keyExtractor={(item) => item?.id} // use unique id if available
               renderItem={({ item, index }) => (
-                <TouchableOpacity key={index} style={styles.incoices}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('invoiceDetails', { invoiceNumber: item.invoiceNumber })}
+                  key={index} style={styles.incoices}>
                   <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ fontWeight: 500 }}>{item.customerName}</Text>
                     <Text style={{ fontSize: 8, color: theme.COLORS.success, fontWeight: 800, textAlign: 'center' }}>paid</Text>
