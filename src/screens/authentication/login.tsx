@@ -107,7 +107,7 @@ const LoginScreen = () => {
                         />
                     </View>
                     <TouchableOpacity onPress={() => SetShowPassWord(!showPassWord)} style={styles.optionBtn}>
-                        {showPassWord ? <EyeClosed color={theme.COLORS.background} /> : <Eye color={theme.COLORS.background} />}
+                        {showPassWord ? <EyeClosed color={theme.COLORS.text} /> : <Eye color={theme.COLORS.text} />}
                     </TouchableOpacity>
                 </View>
             </View>

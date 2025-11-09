@@ -54,10 +54,15 @@ export const invoiceApi = createApi({
       query: (invoiceNumber) => ({
         url: `/${invoiceNumber}/purchase`,
         method: "GET",
+        responseHandler: async (response) => {
+          const blob = await response.blob();
+          return blob;
+        },
       }),
       // transformResponse: (response: any) => response.data,
       transformErrorResponse: (response: any) => response?.status,
       providesTags: ["invoice"],
+      // console.log(Response)
     }),
 
     getInvoice: build.query<any, string>({
@@ -67,10 +72,10 @@ export const invoiceApi = createApi({
       }),
       // transformResponse: (response: any) => response.data,
       transformErrorResponse: (response: any) => response?.status,
-      providesTags: ["invoice"], 
+      providesTags: ["invoice"],
     }),
 
   })
 });
 
-export const { useInvoiceMutation, useGetCurrentUserInvoicesQuery,useLazyGenerateInvoiceQuery, useGetInvoiceQuery } = invoiceApi;
+export const { useInvoiceMutation, useGetCurrentUserInvoicesQuery, useLazyGenerateInvoiceQuery, useGetInvoiceQuery } = invoiceApi;

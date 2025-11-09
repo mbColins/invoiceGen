@@ -20,7 +20,9 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authenticationApi.middleware, invoiceApi.middleware,
+    getDefaultMiddleware({
+      serializableCheck: false, 
+    }).concat(authenticationApi.middleware, invoiceApi.middleware,
       businessApi.middleware, userApi.middleware),
 });
 

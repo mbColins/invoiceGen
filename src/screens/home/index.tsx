@@ -40,7 +40,7 @@ const HomeScreen = () => {
     size: 10,
   });
 
-  const handleNavigation = (type: keyof RootStackParamList,params?: RootStackParamList[keyof RootStackParamList]) => {
+  const handleNavigation = (type: keyof RootStackParamList, params?: RootStackParamList[keyof RootStackParamList]) => {
     navigation.navigate(type as any, params as any);
   };
   const handleRefresh = useCallback(() => {
@@ -52,24 +52,12 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <CustomStatusBar />
+      {/* <View>
+  {
+    in
+  }
+</View> */}
 
-      <View style={styles.statistics}>
-        <View style={styles.statisticsItem}>
-          <Text style={styles.text}>total Ivoice</Text>
-          <Text style={styles.text}>35</Text>
-          <Text style={styles.text}>Last 24 hours</Text>
-        </View>
-        <View style={styles.statisticsItem}>
-          <Text style={styles.text}>Paid inoive</Text>
-          <Text style={styles.text}>35</Text>
-          <Text style={styles.text}>Last 30 days</Text>
-        </View>
-        <View style={styles.statisticsItem}>
-          <Text style={styles.text}>pending invoice</Text>
-          <Text style={styles.text}>35</Text>
-          <Text style={styles.text}>Last 24 hours</Text>
-        </View>
-      </View>
       {isFetching && <ActivityIndicator color={theme.COLORS.primary} />}
       <FlatList
         data={invoiceTypes}
@@ -85,39 +73,40 @@ const HomeScreen = () => {
             <Text style={{ color: '#0b0b0bff', fontSize: 10, marginTop: 10 }}>{item.title}</Text>
           </View>
         )}
-        ListFooterComponent={
-
-          <View>
-            <Text style={{ textAlign: 'left', marginLeft: 20, fontWeight: 500, marginTop: 30 }}>Recent transactions</Text>
-            <FlatList
-              data={data?.table ?? []} // <-- use the table array
-              keyExtractor={(item) => item?.id} // use unique id if available
-              renderItem={({ item, index }) => (
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('invoiceDetails', { invoiceNumber: item.invoiceNumber })}
-                  key={index} style={styles.incoices}>
-                  <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontWeight: 500 }}>{item.customerName}</Text>
-                    <Text style={{ fontSize: 8, color: theme.COLORS.success, fontWeight: 800, textAlign: 'center' }}>paid</Text>
-                  </View>
-                  <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 3 }} key={index}>
-                    <Text style={{ fontSize: 12 }}>puchase: {item.invoiceNumber}</Text>
-                    <Text style={{ fontSize: 10 }}>{formatDateToDDMMYY(item.createdAt)}</Text>
-                    <Text style={{ fontSize: 12 }}>XAF:{item.totalAmount}</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-              scrollEnabled
-              refreshControl={<RefreshControl refreshing={isFetching} onRefresh={handleRefresh} />}
-            />
-          </View>
-
-
-        }
-        ListFooterComponentStyle={styles.footerStyle}
+        scrollEnabled={false}
       />
 
-    </SafeAreaView>
+
+      <Text style={{ textAlign: 'left',width:theme.screenWidth,paddingLeft:20,fontWeight: 500,backgroundColor:theme.COLORS.text }}>Recent transactions</Text>
+      <FlatList
+        data={data?.table ?? []} // <-- use the table array
+        keyExtractor={(item) => item?.id} // use unique id if available
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('invoiceDetails', { invoiceNumber: item.invoiceNumber })}
+            key={index} style={styles.incoices}>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ fontWeight: 500 }}>{item.customerName}</Text>
+              <Text style={{ fontSize: 8, color: theme.COLORS.success, fontWeight: 800, textAlign: 'center' }}>paid</Text>
+            </View>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 3 }} key={index}>
+              <Text style={{ fontSize: 12 }}>puchase: {item.invoiceNumber}</Text>
+              <Text style={{ fontSize: 10 }}>{formatDateToDDMMYY(item.createdAt)}</Text>
+              <Text style={{ fontSize: 12 }}>XAF:{item.totalAmount}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        scrollEnabled
+        refreshControl={<RefreshControl refreshing={isFetching} onRefresh={handleRefresh} />}
+        contentContainerStyle={ styles.footerStyle}
+      />
+ 
+
+  
+
+
+
+    </SafeAreaView >
   );
 };
 
@@ -131,10 +120,10 @@ const styles = StyleSheet.create({
   },
   invoice: { height: 50, width: 50, borderRadius: 10 },
   btn: { position: 'absolute', bottom: 30 },
-  statistics: { backgroundColor: '#5a5959ff', height: '10%', width: '95%', marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 30, borderRadius: 10, marginBottom: 10 },
+  statistics: { backgroundColor: theme.COLORS.text, height: '10%', display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 30, marginBottom: 10 },
   statisticsItem: { justifyContent: 'center', alignItems: 'flex-start' },
-  text: { color: theme.COLORS.text, fontSize: 12, textAlign: 'left', fontStyle: 'italic' },
-  contentContainer: { paddingBottom: 20, backgroundColor: '#fff', marginTop: 30, width: screenWidth, alignItems: 'center', borderTopEndRadius: 20, borderTopStartRadius: 20, height: theme.screenHeight },
-  footerStyle: { justifyContent: 'flex-start', alignItems: 'flex-start', alignContent: 'flex-start', width: screenWidth },
+  text: { color: theme.COLORS.background, fontSize: 12, textAlign: 'left', fontStyle: 'italic' },
+  contentContainer: {backgroundColor: '#fff',  width: screenWidth, alignItems: 'center',  height:350, borderRadius:10},
+  footerStyle: {backgroundColor: '#fff', justifyContent: 'flex-start', alignItems: 'flex-start', alignContent: 'flex-start', width: screenWidth },
   incoices: { marginHorizontal: 10, width: screenWidth - 20, borderBottomWidth: 1, borderBottomColor: '#d7d2d2ff', marginVertical: 5, backgroundColor: '#faf6f6ff', padding: 5, borderRadius: 10 }
 });

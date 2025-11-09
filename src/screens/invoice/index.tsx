@@ -121,8 +121,8 @@ const Invoice = () => {
   // };
 
   return (
-    <ScrollView style={styles.container}>
-
+    <View style={styles.container}>
+      <ScrollView>
       <Text style={styles.headerText}>
         Fill in the following form to generate your invoice
       </Text>
@@ -293,9 +293,7 @@ const Invoice = () => {
       </View>
 
       {/* Submit */}
-      <TouchableOpacity style={styles.saveButton} onPress={handleSubmit(onSubmit)}>
-        <Text style={{ textAlign: 'center', color: theme.COLORS.text, }}>Save</Text>
-      </TouchableOpacity>
+     
       <ModalComponent
         visible={visible && isLoading}
         onClose={() => setVisible(false)}
@@ -303,6 +301,10 @@ const Invoice = () => {
         showLoader={true}
       />
     </ScrollView>
+     <TouchableOpacity style={styles.saveButton} onPress={handleSubmit(onSubmit)}>
+        <Text style={{ textAlign: 'center', color: theme.COLORS.text, }}>Save</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -310,7 +312,7 @@ export default Invoice;
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: '#000121ff',
     paddingHorizontal: 10,
   },

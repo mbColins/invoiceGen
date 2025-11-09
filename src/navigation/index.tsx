@@ -68,6 +68,7 @@ const RoutNavigator = () => {
           headerTitle: "create invoice",
           headerStyle: { backgroundColor: '#01021bff' },
           headerTintColor: '#fff'
+          
         }}
       />
       <Stack.Screen name='gift' component={GiftScreen}
@@ -75,7 +76,13 @@ const RoutNavigator = () => {
           headerShown: true,
           headerTitle: "create gift receipt",
           headerStyle: { backgroundColor: '#01021bff' },
-          headerTintColor: '#fff'
+          headerTitleAlign:'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: theme.FONT_SIZE.md,         // 👈 change this to whatever you want
+            fontWeight: 'bold',   // optional
+            
+          },
         }}
       />
       <Stack.Screen name='invoiceDetails' component={InvoiceDetails}

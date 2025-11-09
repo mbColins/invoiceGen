@@ -1,5 +1,6 @@
 import { GestureResponderEvent, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import theme from './theme'
 
 type buttonProps = {
     title: string,
@@ -13,7 +14,7 @@ const Button: React.FC<buttonProps> = ({ title, onPress,btnStyle }) => {
         <TouchableOpacity style={[styles.container,btnStyle]}
         onPress={onPress}
         >
-            <Text style={{ color: "#ccc" }}>{title}</Text>
+            <Text style={{ color:theme.COLORS.text }}>{title}</Text>
         </TouchableOpacity>
     )
 }
