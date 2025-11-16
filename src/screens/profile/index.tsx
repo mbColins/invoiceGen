@@ -10,6 +10,8 @@ import { useGetBusinessDetailQuery } from '../../redux/apis/businessApi';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../utils/types';
+import CustomStatusBar from './ProfileStatusBar';
+import ProfileStatusBar from './ProfileStatusBar';
 
 const img = require('../../assets/images/gift.jpg')
 
@@ -36,7 +38,7 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.profileImageContainer}>
+      {/* <View style={styles.profileImageContainer}>
         <TouchableOpacity style={styles.profileBtn}
           onPress={pickImage}>
           {imageUri ? (
@@ -51,7 +53,8 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.clearImageBtn} onPress={clearImage}>
           <Trash color={theme.COLORS.text} />
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <ProfileStatusBar/>
       <View>
         <View style={styles.sectionTitle}>
           <Text style={styles.sectionsText}>Personal data:</Text>

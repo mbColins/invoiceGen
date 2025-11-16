@@ -8,4 +8,5 @@ export type RootStackParamList = {
   invoice: undefined;
   gift: undefined;
  invoiceDetails: { invoiceNumber: string };
+ serviceReceipt: undefined;
 };

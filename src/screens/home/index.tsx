@@ -16,7 +16,7 @@ import formatDateToDDMMYY from '../../utils/utils';
 
 const invoiceTypes: { title: string; image: any, type: string }[] = [
   { title: 'purchase', image: require('../../assets/images/purchase.jpg'), type: 'invoice' },
-  { title: 'service receipt', image: require('../../assets/images/service.jpg'), type: 'service' },
+  { title: 'service receipt', image: require('../../assets/images/service.jpg'), type: 'serviceReceipt' },
   { title: 'gift receipt', image: require('../../assets/images/gift.jpg'), type: 'gift' },
   { title: 'expense report', image: require('../../assets/images/expense.jpg'), type: 'service' },
   { title: 'invoice', image: require('../../assets/images/invoice.jpg'), type: 'service' },

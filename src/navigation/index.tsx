@@ -11,6 +11,8 @@ import GiftScreen from '../screens/giftReceipt'
 import BottomNavigation from './BottomNavigation'
 import theme from '../utils/theme'
 import InvoiceDetails from '../screens/invoicedetails'
+import { ArrowLeft } from 'lucide-react-native'
+import ReciptScreen from '../screens/serviceReceipt'
 
 
 const Stack = createNativeStackNavigator()
@@ -61,6 +63,7 @@ const RoutNavigator = () => {
             fontWeight: 'bold',   // optional
           },
         }}
+
       />
       <Stack.Screen name='invoice' component={Invoice}
         options={{
@@ -91,6 +94,15 @@ const RoutNavigator = () => {
           headerTitle: "invoice details",
           headerStyle: { backgroundColor: '#01021bff' },
           headerTintColor: '#fff'
+        }}
+      />
+      <Stack.Screen name='serviceReceipt' component={ReciptScreen}
+        options={{
+          headerShown: true,
+          headerTitle: "Service receipt",
+          headerStyle: { backgroundColor: '#01021bff' },
+          headerTintColor: '#fff',
+          headerTitleAlign:'center'
         }}
       />
     </Stack.Navigator>
