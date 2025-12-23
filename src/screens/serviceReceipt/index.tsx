@@ -12,8 +12,6 @@ interface Item {
     hours: number;
     rate: number;
     amount: number;
-
-
 }
 
 interface ServiceItem {
@@ -35,9 +33,9 @@ const ReciptScreen = () => {
     const { fields, append, remove } = useFieldArray({ control, name: 'services' })
     return (
         <View style={styles.container}>
-            <Text style={{marginBottom:10}}>Generate the service receipt requested by you customer</Text>
+            <Text style={{ marginBottom: 10, color: theme.COLORS.text }}>Generate the service receipt requested by you customer</Text>
             <ScrollView>
-                <Text style={{ marginVertical: 10 }}>Customers information</Text>
+                <Text style={{ marginVertical: 10, color: theme.COLORS.text }}>Customers information</Text>
                 <View style={{ backgroundColor: '#fff', padding: 5, borderRadius: 10 }}>
                     {/* <Label labeText='name: ' labelStyle={{ color: theme.COLORS.background }} /> */}
                     <FormInput
@@ -93,7 +91,7 @@ const ReciptScreen = () => {
                     />
                 </View>
                 <View>
-                    <Text style={{ marginTop: 20 }}>Service info</Text>
+                    <Text style={{ marginTop: 20, color: theme.COLORS.text }}>Service info</Text>
                     {fields.map((item, index) => (
                         <View style={{ backgroundColor: '#fff', marginTop: 10, borderRadius: 10 }}>
                             <FormInput
@@ -115,7 +113,7 @@ const ReciptScreen = () => {
                                     rules={{ required: 'country is required' }}
                                     secureText={false}
                                     editable={true}
-                                    inputStyle={{ width: theme.screenWidth / 3 + 50, backgroundColor: '#fff' }}
+                                    inputStyle={{ width: theme.screenWidth - 246, backgroundColor: '#fff' }}
                                 />
                                 <FormInput
                                     placeholder="rate:"
@@ -125,7 +123,7 @@ const ReciptScreen = () => {
                                     rules={{ required: 'country is required' }}
                                     secureText={false}
                                     editable={true}
-                                    inputStyle={{ width: theme.screenWidth / 2 - 20, backgroundColor: '#fff' }}
+                                    inputStyle={{ width: theme.screenWidth - 246, backgroundColor: '#fff' }}
                                 />
                             </View>
                             <FormInput
@@ -138,13 +136,17 @@ const ReciptScreen = () => {
                                 editable={true}
                                 inputStyle={styles.inputStyles}
                             />
-                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: 10, gap: 10 }}>
+                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: 10, gap: 10, paddingVertical: 5 }}>
                                 <TouchableOpacity
+                                    style={{ borderWidth: 1, borderColor: theme.COLORS.success, borderRadius: 5, padding: 5 }}
                                     onPress={() => append({ description: '', hours: 0.0, rate: 0.0, amount: 0.0 })}>
                                     <Text style={{ color: theme.COLORS.success }}>add service</Text>
                                 </TouchableOpacity>
                                 {index > 0 && (
-                                    <TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={{ borderWidth: 1, borderColor: theme.COLORS.error, borderRadius: 5, padding: 5 }}
+                                        onPress={() => remove(index)}
+                                    >
                                         <Text style={{ color: theme.COLORS.error }}>remove</Text>
                                     </TouchableOpacity>
                                 )}
@@ -165,7 +167,7 @@ const ReciptScreen = () => {
 export default ReciptScreen
 
 const styles = StyleSheet.create({
-    container: { flex: 1, alignContent: 'center',paddingHorizontal: 10 },
+    container: { flex: 1, alignContent: 'center', paddingHorizontal: 10, backgroundColor: '#000121ff' },
     inputStyles: { backgroundColor: '#fff', color: theme.COLORS.background },
-    submitBtn: { backgroundColor: theme.COLORS.primary, display: 'flex', flexDirection: 'row', justifyContent: 'center', marginHorizontal: 10, borderRadius: 10, height: 40, alignItems: 'center', marginVertical: 10, gap: 10 }
+    submitBtn: { backgroundColor: theme.COLORS.primary, display: 'flex', flexDirection: 'row', justifyContent: 'center', marginHorizontal: 1, borderRadius: 10, height: 40, alignItems: 'center', marginVertical: 20, gap: 10 }
 })

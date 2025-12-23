@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     marginTop: 10, backgroundColor: theme.COLORS.text, borderTopLeftRadius: 10, borderTopRightRadius: 10, paddingHorizontal: 5
   },
   itemsLongInput: { borderWidth: 1, marginTop: 4, height: 41, backgroundColor: theme.COLORS.text, width: screenWidth - 30, color: '#000' },
-  itemsShortInput: { borderWidth: 1, backgroundColor: theme.COLORS.text, width: screenWidth - 200, color: '#000' },
+  itemsShortInput: { borderWidth: 1, backgroundColor: theme.COLORS.text, width: screenWidth - 230, color: '#000' },
   addButton: {
     padding: 5,
     borderWidth: 1,

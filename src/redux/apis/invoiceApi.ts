@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const baseUrl = "http://192.168.1.127:2002/api/v1/invoice";
+const baseUrl = "http://172.26.102.34:2002/api/v1/invoice";
 
 export const invoiceApi = createApi({
   reducerPath: "invoiceApi",
